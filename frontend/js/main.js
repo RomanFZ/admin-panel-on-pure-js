@@ -1,8 +1,9 @@
 import {Api} from "./Api.js";
-import {getClient} from "./updateModal.js";
+import {getToUpdateClient} from "./updateModal.js";
 import {addClientModalRender} from "./addModal.js";
 import {sortingClients} from "./sort.js";
 import {loader} from "./loader.js";
+import {deleteClientModalRender} from "./deleteModal.js";
 
 let allClients = [];
 let key = 'id';
@@ -11,16 +12,15 @@ let dir = 'asc';
 
 // Запрос всех клиентов
 export const getClients = async () => {
-    loader(true)
+    loader(true);
     const clients = await Api.get('http://localhost:3000/api/clients');
     allClients = sortingClients(clients, key, dir);
-    if (allClients.length > 0) {
+    console.log(allClients.length > 0)
+    if (allClients.length >= 0) {
         loader(false);
     }
     renderTableClients();
 }
-
-getClients()
 
     
 // Переход(скролл) к клиенту после выбора в поиске и добавление бордера
@@ -136,131 +136,151 @@ export const headerRender = () => {
 
 // Перерендер всего контента(таблицы)
 export const reloadContent = () => {
-    const container = document.getElementById('container');
-    const content = document.querySelector('.content');
-    container.removeChild(content)
+    const tableContent = document.querySelector('.table-content');
+    const tableLines = document.querySelectorAll('.table-line');
+    tableLines.forEach(item => {
+        tableContent.removeChild(item)
+    })
 }
 
-const deleteContact = async (id) => {
-    await Api.delete(`http://localhost:3000/api/clients/${id}`);
-    clearSearch()
-    reloadContent()
-    getClients()
-}
+
 
 const sortParams = (keySort, direction) => {
-    key = keySort;
-    dir = direction;
-    reloadContent()
-    getClients()
+    if (allClients.length > 0) {
+        key = keySort;
+        dir = direction;
+        reloadContent()
+        getClients()
+    }
 }
 
 headerRender()
 
+const container = document.getElementById('container');
+
+const content = document.createElement('div');
+content.className = 'content';
+container.append(content);
+
+const tableContainer = document.createElement('div');
+tableContainer.className = 'table-container';
+content.append(tableContainer);
+
+const heading = document.createElement('h2');
+heading.className = 'table-container-heading';
+heading.innerText = 'Клиенты';
+
+tableContainer.append(heading);
+
+const table = document.createElement('table');
+table.className = 'table';
+tableContainer.append(table)
+
+const thead = document.createElement('thead');
+thead.className = 'table-heading';
+const trHead = document.createElement('tr')
+trHead.className = 'table-head-line-heading';
+
+const tdHeadingId = document.createElement('td');
+tdHeadingId.className = 'table-line-heading image-sorting-up heading-id test';
+tdHeadingId.innerText = 'ID';
+
+const tdHeadingName = document.createElement('td');
+tdHeadingName.className = 'table-line-heading image-sorting-down heading-name';
+tdHeadingName.innerText = 'Фамилия Имя Отчество';
+
+const tdHeadingCreateDate = document.createElement('td');
+tdHeadingCreateDate.className = 'table-line-heading image-sorting-down heading-createAt';
+tdHeadingCreateDate.innerText = 'Дата создания';
+
+const tdHeadingUpdateDate = document.createElement('td');
+tdHeadingUpdateDate.className = 'table-line-heading image-sorting-down heading-updateAt';
+tdHeadingUpdateDate.innerText = 'Дата изменения';
+
+const tdHeadingContacts = document.createElement('td');
+tdHeadingContacts.className = 'table-line-heading';
+tdHeadingContacts.innerText = 'Контакты';
+const tdHeadingButtons = document.createElement('td');
+tdHeadingButtons.className = 'table-line-heading';
+tdHeadingButtons.innerText = 'Кнопки деиствия';
+table.append(thead);
+thead.append(trHead);
+trHead.append(tdHeadingId, tdHeadingName, tdHeadingCreateDate, tdHeadingUpdateDate, tdHeadingContacts, tdHeadingButtons)
+
+const tbody = document.createElement('tbody');
+tbody.className = 'table-content';
+table.append(tbody);
+
+const tableHeadings = document.querySelectorAll('.table-line-heading');
+
+tableHeadings.forEach(item => {
+    item.addEventListener('click', function () {
+
+        if (item.innerText === 'ID') {
+            item.classList.add('test')
+            if (dir === 'asc') {
+                item.classList.remove('image-sorting-up')
+                item.classList.add('image-sorting-down')
+                sortParams('id','desc')
+            } else {
+                item.classList.add('image-sorting-up')
+                item.classList.remove('image-sorting-down')
+                sortParams('id','asc')
+            }
+        } else {
+            const noUnderlineHeading = document.querySelector('.heading-id')
+            noUnderlineHeading.classList.remove('test')
+        }
+        if (item.innerText === 'Фамилия Имя Отчество') {
+            item.classList.add('test')
+            if (dir === 'asc') {
+                item.classList.remove('image-sorting-up')
+                item.classList.add('image-sorting-down')
+                sortParams('surname','desc')
+            } else {
+                item.classList.add('image-sorting-up')
+                item.classList.remove('image-sorting-down')
+                sortParams('surname','asc')
+            }
+        } else {
+            const noUnderlineHeading = document.querySelector('.heading-name')
+            noUnderlineHeading.classList.remove('test')
+        }
+        if (item.innerText === 'Дата создания') {
+            item.classList.add('test')
+            if (dir === 'asc') {
+                item.classList.remove('image-sorting-up')
+                item.classList.add('image-sorting-down')
+                sortParams('createdAt','desc')
+            } else {
+                item.classList.add('image-sorting-up')
+                item.classList.remove('image-sorting-down')
+                sortParams('createdAt','asc')
+            }
+        } else {
+            const noUnderlineHeading = document.querySelector('.heading-createAt')
+            noUnderlineHeading.classList.remove('test')
+        }
+        if (item.innerText === 'Дата изменения') {
+            item.classList.add('test')
+            if (dir === 'asc') {
+                item.classList.remove('image-sorting-up')
+                item.classList.add('image-sorting-down')
+                sortParams('updatedAt','desc')
+            } else {
+                item.classList.add('image-sorting-up')
+                item.classList.remove('image-sorting-down')
+                sortParams('updatedAt','asc')
+            }
+        } else {
+            const noUnderlineHeading = document.querySelector('.heading-updateAt')
+            noUnderlineHeading.classList.remove('test')
+        }
+    })
+})
+
 // Рендер таблицы с клиентами
 const renderTableClients = () => {
-    const container = document.getElementById('container');
-
-    const content = document.createElement('div');
-    content.className = 'content';
-    container.append(content);
-
-    const tableContainer = document.createElement('div');
-    tableContainer.className = 'table-container';
-    content.append(tableContainer);
-
-    const heading = document.createElement('h2');
-    heading.className = 'table-container-heading';
-    heading.innerText = 'Клиенты';
-
-    tableContainer.append(heading);
-
-    const table = document.createElement('table');
-    table.className = 'table';
-    tableContainer.append(table)
-
-    const thead = document.createElement('thead');
-    thead.className = 'table-heading';
-    const trHead = document.createElement('tr')
-    trHead.className = 'table-line-heading';
-    
-    const tdHeadingId = document.createElement('td');
-    tdHeadingId.className = 'table-line-heading';
-    tdHeadingId.innerText = 'ID';
-    tdHeadingId.onclick = () =>  dir === 'asc' ? sortParams('id','desc') : sortParams('id','asc')
-    const tdHeadingIdDirSorting = document.createElement('span')
-    tdHeadingIdDirSorting.innerText = 'убывание';
-    if (key === 'id' && dir === 'asc') {
-        tdHeadingIdDirSorting.innerText = 'возрастание';
-        tdHeadingIdDirSorting.style.color = 'green';
-    }
-    if (key === 'id' && dir === 'desc') {
-        tdHeadingIdDirSorting.innerText = 'убывание'
-        tdHeadingIdDirSorting.style.color = 'green';
-    }
-    tdHeadingId.append(tdHeadingIdDirSorting)
-
-    const tdHeadingName = document.createElement('td');
-    tdHeadingName.className = 'table-line-heading';
-    tdHeadingName.innerText = 'Фамилия Имя Отчество';
-    tdHeadingName.onclick = () => dir === 'asc' ? sortParams('surname','desc') : sortParams('surname','asc')
-    const tdHeadingNameDirSorting = document.createElement('span')
-    tdHeadingNameDirSorting.innerText = 'убывание';
-    if (key === 'surname' && dir === 'asc') {
-        tdHeadingNameDirSorting.innerText = 'возрастание'
-        tdHeadingNameDirSorting.style.color = 'green';
-    }
-    if (key === 'surname' && dir === 'desc') {
-        tdHeadingNameDirSorting.innerText = 'убывание'
-        tdHeadingNameDirSorting.style.color = 'green';
-    }
-    tdHeadingName.append(tdHeadingNameDirSorting)
-    
-    const tdHeadingCreateDate = document.createElement('td');
-    tdHeadingCreateDate.className = 'table-line-heading';
-    tdHeadingCreateDate.innerText = 'Дата создания';
-    tdHeadingCreateDate.onclick = () => dir === 'asc' ? sortParams('createdAt','desc') : sortParams('createdAt','asc')
-    const tdHeadingCreateDateDirSorting = document.createElement('span')
-    tdHeadingCreateDateDirSorting.innerText = 'убывание';
-    if (key === 'createdAt' && dir === 'asc') {
-        tdHeadingCreateDateDirSorting.innerText = 'возрастание'
-        tdHeadingCreateDateDirSorting.style.color = 'green';
-    }
-    if (key === 'createdAt' && dir === 'desc') {
-        tdHeadingCreateDateDirSorting.innerText = 'убывание'
-        tdHeadingCreateDateDirSorting.style.color = 'green';
-    }
-    tdHeadingCreateDate.append(tdHeadingCreateDateDirSorting)
-
-    const tdHeadingUpdateDate = document.createElement('td');
-    tdHeadingUpdateDate.className = 'table-line-heading';
-    tdHeadingUpdateDate.innerText = 'Дата изменения';
-    tdHeadingUpdateDate.onclick = () => dir === 'asc' ? sortParams('updatedAt','desc') : sortParams('updatedAt','asc')
-    const tdHeadingUpdateDateDirSorting = document.createElement('span')
-    tdHeadingUpdateDateDirSorting.innerText = 'убывание';
-    if (key === 'updatedAt' && dir === 'asc') {
-        tdHeadingUpdateDateDirSorting.innerText = 'возрастание'
-        tdHeadingUpdateDateDirSorting.style.color = 'green';
-    }
-    if (key === 'updatedAt' && dir === 'desc') {
-        tdHeadingUpdateDateDirSorting.innerText = 'убывание'
-        tdHeadingUpdateDateDirSorting.style.color = 'green';
-    }
-    tdHeadingUpdateDate.append(tdHeadingUpdateDateDirSorting)
-    
-    const tdHeadingContacts = document.createElement('td');
-    tdHeadingContacts.className = 'table-line-heading';
-    tdHeadingContacts.innerText = 'Контакты';
-    const tdHeadingButtons = document.createElement('td');
-    tdHeadingButtons.className = 'table-line-heading';
-    tdHeadingButtons.innerText = 'Кнопки деиствия';
-    table.append(thead);
-    thead.append(trHead);
-    trHead.append(tdHeadingId, tdHeadingName, tdHeadingCreateDate, tdHeadingUpdateDate, tdHeadingContacts, tdHeadingButtons)
-
-    const tbody = document.createElement('tbody');
-    tbody.className = 'table-content';
-    table.append(tbody)
 
      allClients.map((item, index) => {
         const trBody = document.createElement('tr');
@@ -323,7 +343,7 @@ const renderTableClients = () => {
                 spanContactOther.className = 'icon-contact other';
                 contacts.append(spanContactOther)
             }
-        } )
+        });
         const buttons = document.createElement('td');
         buttons.className = 'table-content-cell';
         const updateButton = document.createElement('button');
@@ -332,8 +352,8 @@ const renderTableClients = () => {
         updateButton.innerText = 'изменить';
         deleteButton.innerText = 'удалить';
 
-        deleteButton.onclick = () => deleteContact(item.id);
-        updateButton.onclick = () => getClient(item.id);
+        deleteButton.onclick = () => deleteClientModalRender(item.id);
+        updateButton.onclick = () => getToUpdateClient(item.id);
 
         buttons.append(updateButton, deleteButton);
 
@@ -343,10 +363,14 @@ const renderTableClients = () => {
         createDate.append(spanUpdatedTime);
     })
 
-    const buttonAddClient = document.createElement('button');
-    buttonAddClient.innerText = 'добавить клиента';
-    tableContainer.append(buttonAddClient)
-
-    buttonAddClient.onclick = () => addClientModalRender();
 }
+
+const buttonAddClient = document.createElement('button');
+buttonAddClient.classList = 'button-add-client';
+buttonAddClient.innerText = 'добавить клиента';
+tableContainer.append(buttonAddClient)
+
+buttonAddClient.onclick = () => addClientModalRender();
+
+getClients()
 

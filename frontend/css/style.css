@@ -60,6 +60,7 @@ h3 {
 
 .table-line-heading {
   height: 32px;
+  cursor: pointer;
 }
 
 .table-content {
@@ -295,10 +296,10 @@ h3 {
 }
 
 .loader {
-  position: fixed;
-  top: 50vh;
-  left: calc(50%-60px);
-  transform: translate(0, -50%);
+  /*position: fixed;*/
+  /*top: 50vh;*/
+  /*left: calc(50% - 60px);*/
+  /*transform: translate(0, -50%);*/
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #3498db; /* Blue */
   border-radius: 50%;
@@ -310,5 +311,19 @@ h3 {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.test {
+  color: red;
+}
+
+.image-sorting-up {
+  background-image: url("/image/arrow_up.svg");
+  background-repeat: no-repeat;
+}
+
+.image-sorting-down {
+  background-image: url("/image/arrow_down.svg");
+  background-repeat: no-repeat;
 }
 

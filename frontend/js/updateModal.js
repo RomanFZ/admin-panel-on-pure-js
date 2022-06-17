@@ -5,7 +5,7 @@ import {addContacts} from "./addModal.js";
 let client = [];
 let idClient = null;
 
-export const getClient = async (id) => {
+export const getToUpdateClient = async (id) => {
     idClient = id;
     const result = await Api.get(`http://localhost:3000/api/clients/${id}`);
     return updateClientModalRender(result)

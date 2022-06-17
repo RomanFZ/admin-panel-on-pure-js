@@ -1,10 +1,6 @@
 import {Api} from "./Api.js";
 import {clearSearch, getClients, reloadContent} from "./main.js";
 
-// const inputSurnameValue = '';
-// const inputNameValue = '';
-// const inputLastnameValue = '';
-
 const postClients = async (data) => {
     await Api.post('http://localhost:3000/api/clients', data);
 }
