@@ -13,3 +13,17 @@ export const loader = (flag) => {
         btnAddClient.style = 'display: block';
     }
 }
+
+
+// export const miniLoader = (flag, action) => {
+//     const buttonEdit = document.querySelector('.edit-button-image');
+//     const buttonEdit = document.querySelector('.edit-button-image');
+//     const loader = document.createElement('span');
+//     loader.classList = 'mini-loader';
+//     if (flag) {
+//         tableContent.append(loader);
+//     } else {
+//         const loader = document.querySelector('.loader');
+//         tableContent.removeChild(loader)
+//     }
+// }

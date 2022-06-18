@@ -349,13 +349,21 @@ const renderTableClients = () => {
         const updateButton = document.createElement('button');
         const deleteButton = document.createElement('button');
 
+        const editImage = document.createElement('span');
+        editImage.classList = 'edit-button-image';
+
+         const deleteImage = document.createElement('span');
+         deleteImage.classList = 'delete-button-image';
+
         updateButton.innerText = 'изменить';
         deleteButton.innerText = 'удалить';
 
-        deleteButton.onclick = () => deleteClientModalRender(item.id);
-        updateButton.onclick = () => getToUpdateClient(item.id);
+        deleteImage.onclick = () => deleteClientModalRender(item.id, 'delete');
+        editImage.onclick = () => getToUpdateClient(item.id,  'edit');
+        deleteButton.onclick = () => deleteClientModalRender(item.id,  'delete');
+        updateButton.onclick = () => getToUpdateClient(item.id, 'edit');
 
-        buttons.append(updateButton, deleteButton);
+        buttons.append(editImage, updateButton, deleteImage, deleteButton);
 
         tbody.append(trBody)
         trBody.append(id, name, createDate, changeDate, contacts, buttons)

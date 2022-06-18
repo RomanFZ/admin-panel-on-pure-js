@@ -327,3 +327,22 @@ h3 {
   background-repeat: no-repeat;
 }
 
+.edit-button-image {
+  width: 20px;
+  background-image: url(/image/edit.svg);
+  background-repeat: no-repeat;
+  height: 15px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.delete-button-image {
+  width: 20px;
+  background-image: url(/image/cancel.svg);
+  background-repeat: no-repeat;
+  height: 15px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+

@@ -6,6 +6,7 @@ let client = [];
 let idClient = null;
 
 export const getToUpdateClient = async (id) => {
+
     idClient = id;
     const result = await Api.get(`http://localhost:3000/api/clients/${id}`);
     return updateClientModalRender(result)
