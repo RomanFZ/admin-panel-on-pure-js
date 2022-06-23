@@ -13,7 +13,7 @@ let dir = 'asc';
 // Запрос всех клиентов
 export const getClients = async () => {
     loader(true);
-    const clients = await Api.get('http://localhost:3000/api/clients');
+    // const clients = await Api.get('http://localhost:3000/api/clients');
     allClients = sortingClients(clients, key, dir);
     console.log(allClients.length > 0)
     if (allClients.length >= 0) {
@@ -345,25 +345,33 @@ const renderTableClients = () => {
             }
         });
         const buttons = document.createElement('td');
-        buttons.className = 'table-content-cell';
+        buttons.className = 'table-content-cell buttons-container';
+
+        const editButtonContainer = document.createElement('div')
+         editButtonContainer.classList = 'edit-button-container';
+
+         const deleteButtonContainer = document.createElement('div')
+        deleteButtonContainer.classList = 'delete-button-container';
+
         const updateButton = document.createElement('button');
         const deleteButton = document.createElement('button');
 
-        const editImage = document.createElement('span');
+        const editImage = document.createElement('div');
         editImage.classList = 'edit-button-image';
 
-         const deleteImage = document.createElement('span');
+         const deleteImage = document.createElement('div');
          deleteImage.classList = 'delete-button-image';
 
         updateButton.innerText = 'изменить';
         deleteButton.innerText = 'удалить';
 
-        deleteImage.onclick = () => deleteClientModalRender(item.id, 'delete');
-        editImage.onclick = () => getToUpdateClient(item.id,  'edit');
-        deleteButton.onclick = () => deleteClientModalRender(item.id,  'delete');
-        updateButton.onclick = () => getToUpdateClient(item.id, 'edit');
+         editButtonContainer.onclick = () => getToUpdateClient(item.id);
+         deleteButtonContainer.onclick = () => deleteClientModalRender(item.id);
 
-        buttons.append(editImage, updateButton, deleteImage, deleteButton);
+        buttons.append(editButtonContainer, deleteButtonContainer);
+
+        editButtonContainer.append(editImage, updateButton);
+        deleteButtonContainer.append(deleteImage, deleteButton);
 
         tbody.append(trBody)
         trBody.append(id, name, createDate, changeDate, contacts, buttons)

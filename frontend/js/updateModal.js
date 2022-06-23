@@ -1,14 +1,16 @@
 import {Api} from "./Api.js";
 import {clearSearch, getClients, reloadContent} from "./main.js";
 import {addContacts} from "./addModal.js";
+// import {miniLoader} from "./loader.js";
 
 let client = [];
 let idClient = null;
 
 export const getToUpdateClient = async (id) => {
-
+    miniLoader(true, id)
     idClient = id;
     const result = await Api.get(`http://localhost:3000/api/clients/${id}`);
+    miniLoader(false, id)
     return updateClientModalRender(result)
 }
 
