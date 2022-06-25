@@ -7,10 +7,18 @@ let client = [];
 let idClient = null;
 
 export const getToUpdateClient = async (id) => {
+    // const editButtonContainer = document.querySelector('.edit-button-container');
+    // editButtonContainer.classList.add('mini-loader');
     loader(true)
     idClient = id;
     const result = await Api.get(`http://localhost:3000/api/clients/${id}`);
     loader(false)
+    // editButtonContainer.classList.remove('show-loader');
+    const editButtonContainers = document.querySelectorAll('.edit-button-container');
+    editButtonContainers.forEach(item => {
+        item.classList.remove('mini-loader')
+    })
+    // editButtonContainer.classList.add('mini-loader');
     return updateClientModalRender(result)
 }
 

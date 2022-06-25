@@ -19,12 +19,12 @@ loaderContainer.appendChild(svg)
 
 
 export const loader = (flag, action, id) => {
-    const onLoader = document.querySelector('.on-loader')
+    const onLoader = document.querySelector('.show-loader')
     if (flag) {
         onLoader.append(loaderContainer);
     } else {
         onLoader.removeChild(loaderContainer)
-        onLoader.classList.remove('on-loader')
+        onLoader.classList.remove('show-loader')
     }
 
 

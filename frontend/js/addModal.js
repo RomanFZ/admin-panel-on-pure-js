@@ -3,8 +3,7 @@ import {clearSearch, getClients, reloadContent} from "./main.js";
 import {loader} from "./loader.js";
 
 const postClients = async (data) => {
-    loader(true, 'saveNewClient')
-    // await Api.post('http://localhost:3000/api/clients', data);
+    await Api.post('http://localhost:3000/api/clients', data);
 }
 
 export const addContacts = () => {
@@ -31,10 +30,17 @@ const closeAddModal = () => {
 const addClient = async (inputSurnameValue, inputNameValue, inputLastnameValue) => {
     const arrayContacts = addContacts();
     const dataClient = { name: inputNameValue, 'surname': inputSurnameValue, lastName: inputLastnameValue, contacts : arrayContacts}
+    const buttonAddClient = document.querySelector('.button-save-client');
+    buttonAddClient.classList.add('show-loader');
+    buttonAddClient.classList.add('mini-loader');
+    loader(true)
     postClients(dataClient);
-    // closeAddModal();
-    // reloadContent();
-    // getClients();
+    loader(false)
+    buttonAddClient.classList.remove('show-loader');
+    buttonAddClient.classList.remove('mini-loader');
+    closeAddModal();
+    reloadContent();
+    getClients();
 }
 
 export const addClientModalRender = () => {
@@ -60,7 +66,7 @@ export const addClientModalRender = () => {
     labelSurname.innerText = 'Фамилия';
     const inputSurname = document.createElement('input');
     inputSurname.type = 'text';
-    inputSurname.required = 2;
+    inputSurname.required = true;
 
     labelSurname.append(inputSurname)
     containerAddClientModal.append(labelSurname)
@@ -69,7 +75,7 @@ export const addClientModalRender = () => {
     labelName.innerText = 'Имя';
     const inputName = document.createElement('input');
     inputName.type = 'text';
-    inputName.required = 2;
+    inputName.required = true;
 
     labelName.append(inputName)
     containerAddClientModal.append(labelName)
@@ -78,7 +84,7 @@ export const addClientModalRender = () => {
     labelLastname.innerText = 'Отчество';
     const inputLastname = document.createElement('input');
     inputLastname.type = 'text';
-    inputLastname.required = 2;
+    inputLastname.required = true;
 
    labelLastname.append(inputLastname)
     containerAddClientModal.append(labelLastname)
@@ -112,7 +118,7 @@ export const addClientModalRender = () => {
         const inputContact = document.createElement('input');
         inputContact.className = 'input-contact';
         inputContact.type = 'text';
-        inputContact.required = 2;
+        inputContact.required = true;
 
         const buttonDeleteContact = document.createElement('button');
         buttonDeleteContact.innerText = 'Закрыть';
@@ -140,7 +146,7 @@ export const addClientModalRender = () => {
     const buttonAddClient = document.createElement('button');
     buttonAddClient.className = 'button-save-client';
     buttonAddClient.innerText = 'Сохранить';
-    buttonAddClient.type = 'button';
+    buttonAddClient.type = 'submit';
     buttonAddClient.onclick = () => addClient(inputSurname.value, inputName.value, inputLastname.value)
     // buttonAddContainer.append(buttonAddClient)
     containerAddClientModal.append(buttonAddClient);

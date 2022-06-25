@@ -13,16 +13,17 @@ let dir = 'asc';
 // Запрос всех клиентов
 export const getClients = async () => {
 
-    const tableContent = document.getElementById('container')
-    tableContent.classList.add('on-loader');
+    const tableContent = document.querySelector('.table-content')
+    tableContent.classList.add('show-loader');
     tableContent.classList.add('big-loader');
     loader(true);
-    // const clients = await Api.get('http://localhost:3000/api/clients');
-    // allClients = sortingClients(clients, key, dir);
-    // console.log(allClients.length > 0)
-    // if (allClients.length >= 0) {
-    //     loader(false);
-    // }
+    const clients = await Api.get('http://localhost:3000/api/clients');
+    allClients = sortingClients(clients, key, dir);
+    console.log(allClients.length > 0)
+    if (allClients.length >= 0) {
+        loader(false);
+    }
+    tableContent.classList.remove('big-loader');
     renderTableClients();
 }
 
@@ -214,8 +215,6 @@ trHead.append(tdHeadingId, tdHeadingName, tdHeadingCreateDate, tdHeadingUpdateDa
 const tbody = document.createElement('tbody');
 tbody.className = 'table-content';
 table.append(tbody);
-const emptyCont = document.createElement('tr');
-tbody.append(emptyCont)
 
 const tableHeadings = document.querySelectorAll('.table-line-heading');
 
@@ -375,8 +374,9 @@ const renderTableClients = () => {
         deleteButton.innerText = 'удалить';
 
          editButtonContainer.onclick = () => {
-             editButtonContainer.classList.add('on-loader');
-             return   getToUpdateClient(item.id);
+             editButtonContainer.classList.add('show-loader');
+             editButtonContainer.classList.add('mini-loader');
+             return  getToUpdateClient(item.id);
          }
          deleteButtonContainer.onclick = () => deleteClientModalRender(item.id);
 
