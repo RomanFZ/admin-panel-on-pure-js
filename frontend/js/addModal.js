@@ -1,8 +1,10 @@
 import {Api} from "./Api.js";
 import {clearSearch, getClients, reloadContent} from "./main.js";
+import {loader} from "./loader.js";
 
 const postClients = async (data) => {
-    await Api.post('http://localhost:3000/api/clients', data);
+    loader(true, 'saveNewClient')
+    // await Api.post('http://localhost:3000/api/clients', data);
 }
 
 export const addContacts = () => {
@@ -30,9 +32,9 @@ const addClient = async (inputSurnameValue, inputNameValue, inputLastnameValue) 
     const arrayContacts = addContacts();
     const dataClient = { name: inputNameValue, 'surname': inputSurnameValue, lastName: inputLastnameValue, contacts : arrayContacts}
     postClients(dataClient);
-    closeAddModal();
-    reloadContent();
-    getClients();
+    // closeAddModal();
+    // reloadContent();
+    // getClients();
 }
 
 export const addClientModalRender = () => {
@@ -128,15 +130,19 @@ export const addClientModalRender = () => {
 
     const buttonAddContact = document.createElement('div');
     buttonAddContact.style.border = '1px solid green';
-   buttonAddContact.innerText = 'Добавить контакт';
-   containerContacts.append(buttonAddContact)
+    buttonAddContact.innerText = 'Добавить контакт';
+    containerContacts.append(buttonAddContact)
 
     buttonAddContact.onclick = () => addFieldContact();
 
+    // const buttonAddContainer = document.createElement('div');
+
     const buttonAddClient = document.createElement('button');
-   buttonAddClient.innerText = 'Сохранить';
-   // buttonAddClient.type = 'button';
-   buttonAddClient.onclick = () => addClient(inputSurname.value, inputName.value, inputLastname.value)
-   containerAddClientModal.append(buttonAddClient);
-   clearSearch()
+    buttonAddClient.className = 'button-save-client';
+    buttonAddClient.innerText = 'Сохранить';
+    buttonAddClient.type = 'button';
+    buttonAddClient.onclick = () => addClient(inputSurname.value, inputName.value, inputLastname.value)
+    // buttonAddContainer.append(buttonAddClient)
+    containerAddClientModal.append(buttonAddClient);
+    clearSearch()
 }

@@ -12,13 +12,17 @@ let dir = 'asc';
 
 // Запрос всех клиентов
 export const getClients = async () => {
+
+    const tableContent = document.getElementById('container')
+    tableContent.classList.add('on-loader');
+    tableContent.classList.add('big-loader');
     loader(true);
     // const clients = await Api.get('http://localhost:3000/api/clients');
-    allClients = sortingClients(clients, key, dir);
-    console.log(allClients.length > 0)
-    if (allClients.length >= 0) {
-        loader(false);
-    }
+    // allClients = sortingClients(clients, key, dir);
+    // console.log(allClients.length > 0)
+    // if (allClients.length >= 0) {
+    //     loader(false);
+    // }
     renderTableClients();
 }
 
@@ -210,6 +214,8 @@ trHead.append(tdHeadingId, tdHeadingName, tdHeadingCreateDate, tdHeadingUpdateDa
 const tbody = document.createElement('tbody');
 tbody.className = 'table-content';
 table.append(tbody);
+const emptyCont = document.createElement('tr');
+tbody.append(emptyCont)
 
 const tableHeadings = document.querySelectorAll('.table-line-heading');
 
@@ -345,7 +351,10 @@ const renderTableClients = () => {
             }
         });
         const buttons = document.createElement('td');
-        buttons.className = 'table-content-cell buttons-container';
+         buttons.className = 'table-content-cell';
+
+        const buttonsContainer = document.createElement('div');
+         buttonsContainer.classList = 'buttons-container';
 
         const editButtonContainer = document.createElement('div')
          editButtonContainer.classList = 'edit-button-container';
@@ -365,10 +374,14 @@ const renderTableClients = () => {
         updateButton.innerText = 'изменить';
         deleteButton.innerText = 'удалить';
 
-         editButtonContainer.onclick = () => getToUpdateClient(item.id);
+         editButtonContainer.onclick = () => {
+             editButtonContainer.classList.add('on-loader');
+             return   getToUpdateClient(item.id);
+         }
          deleteButtonContainer.onclick = () => deleteClientModalRender(item.id);
 
-        buttons.append(editButtonContainer, deleteButtonContainer);
+         buttonsContainer.append(editButtonContainer, deleteButtonContainer);
+         buttons.append(buttonsContainer)
 
         editButtonContainer.append(editImage, updateButton);
         deleteButtonContainer.append(deleteImage, deleteButton);

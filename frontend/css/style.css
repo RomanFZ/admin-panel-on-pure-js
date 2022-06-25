@@ -395,15 +395,15 @@ h3 {
   animation: rotate 2s linear infinite;
   z-index: 2;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -25px 0 0 -25px;
-  width: 50px;
-  height: 50px;
+  top: 0;
+  left:0;
+  margin: 0;
+  width: 25px;
+  height: 25px;
 }
 
 .path {
-  stroke: red;
+  stroke: #9873FF;
   stroke-linecap: round;
   animation: dash 1.5s ease-in-out infinite;
 }
@@ -429,7 +429,43 @@ h3 {
   }
 }
 
+/*.big-loader {*/
+/*  width: 120px;*/
+/*  height: 115px;*/
+/*}*/
 
+.on-loader {
+  position: relative;
+}
+
+/*.big-loader .loader-container .loader {*/
+/*  width: 75px;*/
+/*  height: 75px;*/
+/*  background-color: inherit;*/
+/*}*/
+
+.loader-container {
+  position: absolute;
+  display: inline-block;
+  z-index: 1;
+  top: -2px;
+  width: 25px;
+  height: 20px;
+  background-color: white;
+  left: -7px;
+}
+
+
+.mini-loader {
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+}
+
+.mini-loader .path {
+  stroke-width: 4;
+}
 
 .test {
   color: red;

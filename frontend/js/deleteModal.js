@@ -10,9 +10,9 @@ const closeAddModal = () => {
 
 const deleteContact = async (id) => {
     await Api.delete(`http://localhost:3000/api/clients/${id}`);
-    clearSearch()
-    reloadContent()
-    getClients()
+    clearSearch();
+    reloadContent();
+    getClients();
 }
 
 export const deleteClientModalRender = (clientId) => {
