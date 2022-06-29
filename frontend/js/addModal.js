@@ -23,8 +23,8 @@ export const addContacts = () => {
 const closeAddModal = () => {
     const container = document.getElementById('container');
     const modalOverlay = document.querySelector('.modal-overlay--visible');
-    modalOverlay.classList.remove('modal-overlay--visible')
-    container.removeChild(modalOverlay)
+    modalOverlay.classList.remove('modal-overlay--visible');
+    container.removeChild(modalOverlay);
 }
 
 const addClient = async (inputSurnameValue, inputNameValue, inputLastnameValue) => {
@@ -34,13 +34,13 @@ const addClient = async (inputSurnameValue, inputNameValue, inputLastnameValue) 
     buttonAddClient.classList.add('show-loader');
     buttonAddClient.classList.add('mini-loader');
     loader(true)
-    postClients(dataClient);
+    await postClients(dataClient);
     loader(false)
     buttonAddClient.classList.remove('show-loader');
     buttonAddClient.classList.remove('mini-loader');
     closeAddModal();
     reloadContent();
-    getClients();
+    await getClients();
 }
 
 export const addClientModalRender = () => {
@@ -49,7 +49,7 @@ export const addClientModalRender = () => {
     const container = document.getElementById('container');
     container.append(modalOverlay);
     const containerAddClientModal = document.createElement('form');
-    containerAddClientModal.className = 'add-client-form-modal modal modal--visible';
+    containerAddClientModal.className = 'add-client-form-modal modal modal--visible formWithValidation';
     modalOverlay.append(containerAddClientModal);
 
     const headingAddClientModal = document.createElement('h3');
@@ -65,8 +65,8 @@ export const addClientModalRender = () => {
     const labelSurname = document.createElement('label');
     labelSurname.innerText = 'Фамилия';
     const inputSurname = document.createElement('input');
+    inputSurname.className = 'input-surname field';
     inputSurname.type = 'text';
-    inputSurname.required = true;
 
     labelSurname.append(inputSurname)
     containerAddClientModal.append(labelSurname)
@@ -75,19 +75,18 @@ export const addClientModalRender = () => {
     labelName.innerText = 'Имя';
     const inputName = document.createElement('input');
     inputName.type = 'text';
-    inputName.required = true;
+    inputName.className = 'input-name field';
 
     labelName.append(inputName)
     containerAddClientModal.append(labelName)
 
-    const labelLastname = document.createElement('label');
-    labelLastname.innerText = 'Отчество';
-    const inputLastname = document.createElement('input');
-    inputLastname.type = 'text';
-    inputLastname.required = true;
+    const labelLastName = document.createElement('label');
+    labelLastName.innerText = 'Отчество';
+    const inputLastName = document.createElement('input');
+    inputLastName.className = 'input-last-name field';
 
-   labelLastname.append(inputLastname)
-    containerAddClientModal.append(labelLastname)
+    labelLastName.append(inputLastName)
+    containerAddClientModal.append(labelLastName)
 
     const containerContacts = document.createElement('div');
     containerContacts.className = 'add-client-form-modal__contacts';
@@ -100,8 +99,9 @@ export const addClientModalRender = () => {
 
 
         const selectContact = document.createElement('select');
-        selectContact.className = 'select-contact';
+        selectContact.className = 'select-contact field';
         const optionNull = document.createElement('option');
+        optionNull.innerText = '123'
         const optionTel = document.createElement('option');
         optionTel.innerText = 'Телефон';
         const optionEmail = document.createElement('option');
@@ -116,7 +116,7 @@ export const addClientModalRender = () => {
         selectContact.append(optionNull,optionTel, optionEmail, optionVk, optionFb, optionOther)
 
         const inputContact = document.createElement('input');
-        inputContact.className = 'input-contact';
+        inputContact.className = 'input-contact field';
         inputContact.type = 'text';
         inputContact.required = true;
 
@@ -134,6 +134,10 @@ export const addClientModalRender = () => {
 
    containerAddClientModal.append(containerContacts)
 
+    const errorMessageContainer = document.createElement('div');
+    errorMessageContainer.className = 'error-message';
+    containerAddClientModal.append(errorMessageContainer);
+
     const buttonAddContact = document.createElement('div');
     buttonAddContact.style.border = '1px solid green';
     buttonAddContact.innerText = 'Добавить контакт';
@@ -144,11 +148,50 @@ export const addClientModalRender = () => {
     // const buttonAddContainer = document.createElement('div');
 
     const buttonAddClient = document.createElement('button');
-    buttonAddClient.className = 'button-save-client';
+    buttonAddClient.className = 'button-save-client validateBtn';
     buttonAddClient.innerText = 'Сохранить';
-    buttonAddClient.type = 'submit';
-    buttonAddClient.onclick = () => addClient(inputSurname.value, inputName.value, inputLastname.value)
+    // buttonAddClient.type = 'button';
+    // buttonAddClient.onclick = () =>
+    //     // e.preventDefault()
+    //     addClient(inputSurname.value, inputName.value, inputLastname.value);
+    //
+
     // buttonAddContainer.append(buttonAddClient)
     containerAddClientModal.append(buttonAddClient);
+
+
+    const form = document.querySelector('.formWithValidation');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault()
+        const fields = form.querySelectorAll('.field')
+        for (let i = 0; i < fields.length; i++) {
+
+            const error = document.createElement('div')
+            error.className='error';
+            error.style.color = 'red';
+            error.innerHTML = 'Cannot be blank';
+            console.log('form[i]', form[i].parentElement)
+        }
+    })
+    // form.addEventListener('submit', function (event) {
+    //     event.preventDefault()
+        // const validateBtn = form.querySelector('.validateBtn');
+        // const valueSurname = form.querySelector('.input-surname');
+        // const valueName = form.querySelector('.input-name')
+        // const valueLastName = form.querySelector('.input-last-name')
+        // const selectValue = form.querySelector('.select-contact');
+        // console.log('selectValue', selectValue)
+        // const valueInputContact = form.querySelector('.input-contact')
+        // const errorMessage = form.querySelector('.error-message')
+        // console.log('clicked on validate');
+        // console.log('valueSurname: ', valueSurname.value)
+        // console.log('valueName: ', valueName.value)
+        // console.log('valueLastName: ', valueLastName.value)
+        // console.log('valueInputContact: ', valueInputContact.value)
+        // console.log('errorMessage: ', errorMessage.value)
+        // console.log('selectValue: ', selectValue.value)
+    // })
+
+
     clearSearch()
 }

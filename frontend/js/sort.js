@@ -1,5 +1,4 @@
 export const sortingClients = (clients, key, dir) => {
-    console.log('сработала сортировка')
     if (key === 'id') {
         const copyClients = [...clients];
         const result = clients.sort((a,b) => {

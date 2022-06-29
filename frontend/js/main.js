@@ -19,7 +19,7 @@ export const getClients = async () => {
     loader(true);
     const clients = await Api.get('http://localhost:3000/api/clients');
     allClients = sortingClients(clients, key, dir);
-    console.log(allClients.length > 0)
+
     if (allClients.length >= 0) {
         loader(false);
     }
@@ -39,7 +39,6 @@ const goToClient = (id) => {
             })
             item.parentNode.classList.add('add-table-border');
         } else {
-            console.log('не работает')
         }
     })
 
