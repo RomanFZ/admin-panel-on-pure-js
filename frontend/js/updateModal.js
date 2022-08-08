@@ -2,6 +2,7 @@ import {Api} from "./Api.js";
 import {clearSearch, getClients, reloadContent} from "./main.js";
 import {addContacts} from "./addModal.js";
 import {loader} from "./loader.js";
+import {deleteContact} from "./deleteModal.js";
 
 let client = [];
 let idClient = null;
@@ -45,7 +46,6 @@ const updateClient = async (inputSurnameValue, inputNameValue, inputLastnameValu
 }
 
 const updateClientModalRender = (client) => {
-
     const modalOverlay = document.createElement('div');
     modalOverlay.classList = 'modal-overlay modal-overlay--visible';
     const container = document.getElementById('container');
@@ -55,7 +55,7 @@ const updateClientModalRender = (client) => {
     modalOverlay.append(containerUpdateClientModal);
 
     const headingUpdateClientModal = document.createElement('h3');
-    headingUpdateClientModal.innerText = 'Добавить клиента';
+    headingUpdateClientModal.innerText = 'Изменить клиента';
     containerUpdateClientModal.append(headingUpdateClientModal);
 
     const buttonCloseModal = document.createElement('button');
@@ -112,16 +112,16 @@ const updateClientModalRender = (client) => {
             optionClient.innerText = i.type
             const optionTel = document.createElement('option');
             optionTel.innerText = 'Телефон';
+            const optionAdditionalTel = document.createElement('option');
+            optionAdditionalTel.innerText = 'Доп. телефон';
             const optionEmail = document.createElement('option');
             optionEmail.innerText = 'Email';
             const optionVk = document.createElement('option');
             optionVk.innerText = 'Vk';
             const optionFb = document.createElement('option');
             optionFb.innerText = 'Facebook';
-            const optionOther = document.createElement('option');
-            optionOther.innerText = 'Другое';
 
-            selectUpdateContact.append(optionClient ,optionTel, optionEmail, optionVk, optionFb, optionOther)
+            selectUpdateContact.append(optionClient ,optionTel, optionEmail, optionVk, optionFb, optionAdditionalTel)
 
             if (i.type === 'Телефон') {
                 selectUpdateContact.removeChild(optionTel);
@@ -135,8 +135,8 @@ const updateClientModalRender = (client) => {
             if (i.type === 'Facebook') {
                 selectUpdateContact.removeChild(optionFb);
             }
-            if (i.type === 'Другое') {
-                selectUpdateContact.removeChild(optionOther);
+            if (i.type === 'Доп. телефон') {
+                selectUpdateContact.removeChild(optionAdditionalTel);
             }
 
             const inputUpdateContact = document.createElement('input');
@@ -165,16 +165,16 @@ const updateClientModalRender = (client) => {
             const optionNull = document.createElement('option');
             const optionTel = document.createElement('option');
             optionTel.innerText = 'Телефон';
+            const optionAdditionalTel = document.createElement('option');
+            optionAdditionalTel.innerText = 'Доп. телефон';
             const optionEmail = document.createElement('option');
             optionEmail.innerText = 'Email';
             const optionVk = document.createElement('option');
             optionVk.innerText = 'Vk';
             const optionFb = document.createElement('option');
             optionFb.innerText = 'Facebook';
-            const optionOther = document.createElement('option');
-            optionOther.innerText = 'Другое';
 
-            selectContact.append(optionNull,optionTel, optionEmail, optionVk, optionFb, optionOther)
+            selectContact.append(optionNull,optionTel, optionAdditionalTel, optionEmail, optionVk, optionFb)
 
             const inputContact = document.createElement('input');
             inputContact.className = 'input-contact';
@@ -206,7 +206,12 @@ const updateClientModalRender = (client) => {
         buttonUpdateClient.innerText = 'Изменить';
         buttonUpdateClient.type = 'button';
         buttonUpdateClient.onclick = () => updateClient(inputSurname.value, inputName.value, inputLastname.value)
-        containerUpdateClientModal.append(buttonUpdateClient);
+
+        const deleteClientButton = document.createElement('button');
+        deleteClientButton.className = 'delete-client';
+        deleteClientButton.innerText = 'Удалить';
+        deleteClientButton.onclick = () => deleteContact(client.id);
+        containerUpdateClientModal.append(buttonUpdateClient, deleteClientButton);
         clearSearch();
 }
 

@@ -8,7 +8,7 @@ const closeAddModal = () => {
     container.removeChild(modalOverlay)
 }
 
-const deleteContact = async (id) => {
+export const deleteContact = async (id) => {
     await Api.delete(`http://localhost:3000/api/clients/${id}`);
     clearSearch();
     reloadContent();

@@ -1,0 +1,93 @@
+.modal-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal {
+    background-color: #fff;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.modal-overlay--visible {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal--visible {
+    display: block;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 23px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    transition: all .3s ease;
+}
+
+.close-modal-btn::before,
+.close-modal-btn::after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: #000;
+    transition: all .3s ease;
+}
+
+.close-modal-btn::before {
+    transform: rotate(45deg);
+}
+
+.close-modal-btn::after {
+    transform: rotate(-45deg);
+}
+
+.close-modal-btn:hover::before,
+.close-modal-btn:hover::after {
+    background: var(--color-violet);
+}
+
+.close-modal-btn:active::before,
+.close-modal-btn:active::after {
+    background: var(--color-dark-violet);
+}
+
+.close-modal-btn:focus::before,
+.close-modal-btn:focus::after {
+    background: var(--color-violet);
+}
+
+.button-save-client {
+    padding: 40px;
+}
+
+.button-save-client .loader-container {
+    top: 33%;
+    left: 10%;
+    background-color: initial;
+}

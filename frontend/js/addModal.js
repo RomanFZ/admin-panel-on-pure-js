@@ -104,16 +104,16 @@ export const addClientModalRender = () => {
         optionNull.innerText = '123'
         const optionTel = document.createElement('option');
         optionTel.innerText = 'Телефон';
+        const optionAdditionalTel = document.createElement('option');
+        optionAdditionalTel.innerText = 'Доп. телефон';
         const optionEmail = document.createElement('option');
         optionEmail.innerText = 'Email';
         const optionVk = document.createElement('option');
         optionVk.innerText = 'Vk';
         const optionFb = document.createElement('option');
         optionFb.innerText = 'Facebook';
-        const optionOther = document.createElement('option');
-        optionOther.innerText = 'Другое';
 
-        selectContact.append(optionNull,optionTel, optionEmail, optionVk, optionFb, optionOther)
+        selectContact.append(optionNull, optionTel, optionAdditionalTel, optionEmail, optionVk, optionFb)
 
         const inputContact = document.createElement('input');
         inputContact.className = 'input-contact field';
@@ -150,46 +150,44 @@ export const addClientModalRender = () => {
     const buttonAddClient = document.createElement('button');
     buttonAddClient.className = 'button-save-client validateBtn';
     buttonAddClient.innerText = 'Сохранить';
-    // buttonAddClient.type = 'button';
-    // buttonAddClient.onclick = () =>
-    //     // e.preventDefault()
-    //     addClient(inputSurname.value, inputName.value, inputLastname.value);
-    //
+    buttonAddClient.type = 'button';
+    buttonAddClient.onclick = () =>
+        addClient(inputSurname.value, inputName.value, inputLastName.value);
 
-    // buttonAddContainer.append(buttonAddClient)
+
     containerAddClientModal.append(buttonAddClient);
 
 
     const form = document.querySelector('.formWithValidation');
-    form.addEventListener('submit', function (event) {
-        event.preventDefault()
-        const fields = form.querySelectorAll('.field')
-        for (let i = 0; i < fields.length; i++) {
-
-            const error = document.createElement('div')
-            error.className='error';
-            error.style.color = 'red';
-            error.innerHTML = 'Cannot be blank';
-            console.log('form[i]', form[i].parentElement)
-        }
-    })
     // form.addEventListener('submit', function (event) {
     //     event.preventDefault()
-        // const validateBtn = form.querySelector('.validateBtn');
-        // const valueSurname = form.querySelector('.input-surname');
-        // const valueName = form.querySelector('.input-name')
-        // const valueLastName = form.querySelector('.input-last-name')
-        // const selectValue = form.querySelector('.select-contact');
-        // console.log('selectValue', selectValue)
-        // const valueInputContact = form.querySelector('.input-contact')
-        // const errorMessage = form.querySelector('.error-message')
-        // console.log('clicked on validate');
-        // console.log('valueSurname: ', valueSurname.value)
-        // console.log('valueName: ', valueName.value)
-        // console.log('valueLastName: ', valueLastName.value)
-        // console.log('valueInputContact: ', valueInputContact.value)
-        // console.log('errorMessage: ', errorMessage.value)
-        // console.log('selectValue: ', selectValue.value)
+    //     const fields = form.querySelectorAll('.field')
+    //     for (let i = 0; i < fields.length; i++) {
+    //
+    //         const error = document.createElement('div')
+    //         error.className='error';
+    //         error.style.color = 'red';
+    //         error.innerHTML = 'Cannot be blank';
+    //         console.log('form[i]', form[i].parentElement)
+    //     }
+    // })
+    // form.addEventListener('submit', function (event) {
+    //     event.preventDefault()
+    //     const validateBtn = form.querySelector('.validateBtn');
+    //     const valueSurname = form.querySelector('.input-surname');
+    //     const valueName = form.querySelector('.input-name')
+    //     const valueLastName = form.querySelector('.input-last-name')
+    //     const selectValue = form.querySelector('.select-contact');
+    //     console.log('selectValue', selectValue)
+    //     const valueInputContact = form.querySelector('.input-contact')
+    //     const errorMessage = form.querySelector('.error-message')
+    //     console.log('clicked on validate');
+    //     console.log('valueSurname: ', valueSurname.value)
+    //     console.log('valueName: ', valueName.value)
+    //     console.log('valueLastName: ', valueLastName.value)
+    //     console.log('valueInputContact: ', valueInputContact.value)
+    //     console.log('errorMessage: ', errorMessage.value)
+    //     console.log('selectValue: ', selectValue.value)
     // })
 
 

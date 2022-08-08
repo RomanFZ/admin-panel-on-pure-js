@@ -84,9 +84,9 @@ export const headerRender = () => {
     headerContainer.className = 'header-container';
     container.append(headerContainer);
 
-    const logo = document.createElement('div');
+    const logo = document.createElement('img');
     logo.className = 'header-logo';
-    logo.innerText = 'ЛОГОТИП';
+    logo.src = '../image/logo.png'
     headerContainer.append(logo);
 
     const searchContainer = document.createElement('div');
@@ -96,23 +96,26 @@ export const headerRender = () => {
     const searchResult = document.createElement('div');
     searchResult.className = 'input-search-result';
 
-    // Вызывается контеинер после ввода текста в инпут поиска
+    // Вызывается контейнер после ввода текста в инпут поиска
     const resultSearch = async () => {
 
         const inputValue = inputSearch.value;
-
+        const clears = document.querySelectorAll('.clear-button')
+        clears.forEach((item) => {
+            headerContainer.removeChild(item);
+        })
         if (inputValue.length >= 0) {
-            const clearButton = document.createElement("button")
-            clearButton.classList = 'clear-button'
+            const clearButton = document.createElement("button");
+            clearButton.classList = 'clear-button';
             clearButton.innerText = 'очистить';
             clearButton.onclick = () => clearSearch();
             headerContainer.append(clearButton)
         }
 
-        searchResult.innerText = ''
+        searchResult.innerText = '';
         let pattern = /^[\s]+$/;
 
-        if (inputValue.length > 2 && !pattern.test(inputValue)) {
+        if (!pattern.test(inputValue)) {
             let searchAllClients = await Api.get(`http://localhost:3000/api/clients?search=${inputValue}`);
             searchAllClients.map((item, index) => {
                 const findClient = document.createElement('div');
@@ -128,6 +131,7 @@ export const headerRender = () => {
 
     const inputSearch = document.createElement('input');
     inputSearch.className = 'input-search';
+    inputSearch.placeholder = 'Введите запрос';
 
     let timer;
     inputSearch.onkeyup = () => {
@@ -186,27 +190,52 @@ const trHead = document.createElement('tr')
 trHead.className = 'table-head-line-heading';
 
 const tdHeadingId = document.createElement('td');
-tdHeadingId.className = 'table-line-heading image-sorting-up heading-id test';
-tdHeadingId.innerText = 'ID';
+tdHeadingId.className = 'table-line-heading';
+const tdHeadingIdText = document.createElement('div')
+tdHeadingIdText.innerText = 'ID';
+tdHeadingIdText.className = 'heading-id header-table-highlight';
+const tdHeadingIdSort = document.createElement('div');
+tdHeadingIdSort.className = 'image-sorting image-sorting-up';
+tdHeadingId.append(tdHeadingIdText, tdHeadingIdSort)
 
 const tdHeadingName = document.createElement('td');
-tdHeadingName.className = 'table-line-heading image-sorting-down heading-name';
-tdHeadingName.innerText = 'Фамилия Имя Отчество';
+tdHeadingName.className = 'table-line-heading';
+const tdHeadingNameText = document.createElement('div')
+tdHeadingNameText.innerText = 'Фамилия Имя Отчество';
+tdHeadingNameText.className = 'heading-name';
+const tdHeadingNameSort = document.createElement('div');
+tdHeadingNameSort.className = 'image-sorting image-sorting-down';
+const sortingDirection = document.createElement('div');
+sortingDirection.className = 'sorting-direction';
+sortingDirection.innerText = 'Я-А';
+tdHeadingName.append(tdHeadingNameText, tdHeadingNameSort, sortingDirection)
 
 const tdHeadingCreateDate = document.createElement('td');
-tdHeadingCreateDate.className = 'table-line-heading image-sorting-down heading-createAt';
-tdHeadingCreateDate.innerText = 'Дата создания';
+tdHeadingCreateDate.className = 'table-line-heading';
+const tdHeadingCreateDateText = document.createElement('div')
+tdHeadingCreateDateText.innerText = 'Дата и время создания';
+tdHeadingCreateDateText.className = 'heading-createAt';
+const tdHeadingCreateDateSort = document.createElement('div');
+tdHeadingCreateDateSort.className = 'image-sorting image-sorting-down';
+tdHeadingCreateDate.append(tdHeadingCreateDateText, tdHeadingCreateDateSort)
 
 const tdHeadingUpdateDate = document.createElement('td');
-tdHeadingUpdateDate.className = 'table-line-heading image-sorting-down heading-updateAt';
-tdHeadingUpdateDate.innerText = 'Дата изменения';
+tdHeadingUpdateDate.className = 'table-line-heading';
+const tdHeadingUpdateDateText = document.createElement('div')
+tdHeadingUpdateDateText.innerText = 'Последнее изменение';
+tdHeadingUpdateDateText.className = 'heading-updateAt';
+const tdHeadingUpdateDateSort = document.createElement('div');
+tdHeadingUpdateDateSort.className = 'image-sorting image-sorting-down';
+tdHeadingUpdateDate.append(tdHeadingUpdateDateText, tdHeadingUpdateDateSort)
 
 const tdHeadingContacts = document.createElement('td');
 tdHeadingContacts.className = 'table-line-heading';
 tdHeadingContacts.innerText = 'Контакты';
+
+
 const tdHeadingButtons = document.createElement('td');
 tdHeadingButtons.className = 'table-line-heading';
-tdHeadingButtons.innerText = 'Кнопки деиствия';
+tdHeadingButtons.innerText = 'Действия';
 table.append(thead);
 thead.append(trHead);
 trHead.append(tdHeadingId, tdHeadingName, tdHeadingCreateDate, tdHeadingUpdateDate, tdHeadingContacts, tdHeadingButtons)
@@ -219,66 +248,77 @@ const tableHeadings = document.querySelectorAll('.table-line-heading');
 
 tableHeadings.forEach(item => {
     item.addEventListener('click', function () {
-
         if (item.innerText === 'ID') {
-            item.classList.add('test')
+            const text = item.childNodes[0];
+            text.classList.add('header-table-highlight')
+            const arrowUpDown = item.childNodes[1];
             if (dir === 'asc') {
-                item.classList.remove('image-sorting-up')
-                item.classList.add('image-sorting-down')
+                arrowUpDown.classList.remove('image-sorting-up')
+                arrowUpDown.classList.add('image-sorting-down')
                 sortParams('id','desc')
             } else {
-                item.classList.add('image-sorting-up')
-                item.classList.remove('image-sorting-down')
+                arrowUpDown.classList.add('image-sorting-up')
+                arrowUpDown.classList.remove('image-sorting-down')
                 sortParams('id','asc')
             }
         } else {
             const noUnderlineHeading = document.querySelector('.heading-id')
-            noUnderlineHeading.classList.remove('test')
+            noUnderlineHeading.classList.remove('header-table-highlight')
         }
-        if (item.innerText === 'Фамилия Имя Отчество') {
-            item.classList.add('test')
+        if (item.childNodes[0].innerText === 'Фамилия Имя Отчество') {
+            console.log('я здесь');
+            const text = item.childNodes[0];
+            const sortDir = item.childNodes[2];
+            text.classList.add('header-table-highlight');
+            const arrowUpDown = item.childNodes[1];
             if (dir === 'asc') {
-                item.classList.remove('image-sorting-up')
-                item.classList.add('image-sorting-down')
+                sortDir.innerText = 'Я-А';
+                arrowUpDown.classList.remove('image-sorting-up')
+                arrowUpDown.classList.add('image-sorting-down')
                 sortParams('surname','desc')
             } else {
-                item.classList.add('image-sorting-up')
-                item.classList.remove('image-sorting-down')
+                sortDir.innerText = 'А-Я';
+                arrowUpDown.classList.add('image-sorting-up')
+                arrowUpDown.classList.remove('image-sorting-down')
                 sortParams('surname','asc')
             }
         } else {
             const noUnderlineHeading = document.querySelector('.heading-name')
-            noUnderlineHeading.classList.remove('test')
+            noUnderlineHeading.classList.remove('header-table-highlight')
         }
-        if (item.innerText === 'Дата создания') {
-            item.classList.add('test')
+        if (item.innerText === 'Дата и время создания') {
+            const text = item.childNodes[0];
+            text.classList.add('header-table-highlight');
+            const arrowUpDown = item.childNodes[1];
             if (dir === 'asc') {
-                item.classList.remove('image-sorting-up')
-                item.classList.add('image-sorting-down')
+                arrowUpDown.classList.remove('image-sorting-up')
+                arrowUpDown.classList.add('image-sorting-down')
                 sortParams('createdAt','desc')
             } else {
-                item.classList.add('image-sorting-up')
-                item.classList.remove('image-sorting-down')
+                arrowUpDown.classList.add('image-sorting-up')
+                arrowUpDown.classList.remove('image-sorting-down')
                 sortParams('createdAt','asc')
             }
         } else {
             const noUnderlineHeading = document.querySelector('.heading-createAt')
-            noUnderlineHeading.classList.remove('test')
+            noUnderlineHeading.classList.remove('header-table-highlight')
         }
-        if (item.innerText === 'Дата изменения') {
-            item.classList.add('test')
+        if (item.innerText === 'Последнее изменение') {
+            const text = item.childNodes[0];
+            text.classList.add('header-table-highlight');
+            const arrowUpDown = item.childNodes[1];
             if (dir === 'asc') {
-                item.classList.remove('image-sorting-up')
-                item.classList.add('image-sorting-down')
+                arrowUpDown.classList.remove('image-sorting-up')
+                arrowUpDown.classList.add('image-sorting-down')
                 sortParams('updatedAt','desc')
             } else {
-                item.classList.add('image-sorting-up')
-                item.classList.remove('image-sorting-down')
+                arrowUpDown.classList.add('image-sorting-up')
+                arrowUpDown.classList.remove('image-sorting-down')
                 sortParams('updatedAt','asc')
             }
         } else {
             const noUnderlineHeading = document.querySelector('.heading-updateAt')
-            noUnderlineHeading.classList.remove('test')
+            noUnderlineHeading.classList.remove('header-table-highlight')
         }
     })
 })
@@ -323,6 +363,12 @@ const renderTableClients = () => {
                 spanContactTel.className = 'icon-contact tel';
                 contacts.append(spanContactTel)
             }
+            if (item.type === 'Доп. телефон') {
+                const spanAdditionalTel = document.createElement('span');
+                spanAdditionalTel.setAttribute('tooltip', `${item.type}: ${item.value}`);
+                spanAdditionalTel.className = 'icon-contact other';
+                contacts.append(spanAdditionalTel)
+            }
             if (item.type === 'Email') {
                 const spanContactEmail = document.createElement('span');
                 spanContactEmail.setAttribute('tooltip', `${item.type}: ${item.value}`);
@@ -341,12 +387,6 @@ const renderTableClients = () => {
                 spanContactFacebook.className = 'icon-contact facebook';
                 contacts.append(spanContactFacebook)
             }
-            if (item.type === 'Другое') {
-                const spanContactOther = document.createElement('span');
-                spanContactOther.setAttribute('tooltip', `${item.type}: ${item.value}`);
-                spanContactOther.className = 'icon-contact other';
-                contacts.append(spanContactOther)
-            }
         });
         const buttons = document.createElement('td');
          buttons.className = 'table-content-cell';
@@ -361,7 +401,9 @@ const renderTableClients = () => {
         deleteButtonContainer.classList = 'delete-button-container';
 
         const updateButton = document.createElement('button');
+        updateButton.className = 'edit-delete-button edit-button';
         const deleteButton = document.createElement('button');
+         deleteButton.className = 'edit-delete-button';
 
         const editImage = document.createElement('div');
         editImage.classList = 'edit-button-image';
@@ -369,8 +411,8 @@ const renderTableClients = () => {
          const deleteImage = document.createElement('div');
          deleteImage.classList = 'delete-button-image';
 
-        updateButton.innerText = 'изменить';
-        deleteButton.innerText = 'удалить';
+        updateButton.innerText = 'Изменить';
+        deleteButton.innerText = 'Удалить';
 
          editButtonContainer.onclick = () => {
              editButtonContainer.classList.add('show-loader');
