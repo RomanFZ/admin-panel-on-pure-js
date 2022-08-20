@@ -27,7 +27,6 @@ export const getClients = async () => {
     renderTableClients();
 }
 
-    
 // Переход(скролл) к клиенту после выбора в поиске и добавление бордера
 const goToClient = (id) => {
     const validId = id.substr(7, 6);
@@ -46,6 +45,8 @@ const goToClient = (id) => {
 
 // При клике на наиденные данные клиентов, записывается значение в поле поиска и добавляется бордер для элемента
 const onclickSearchResult = (client) => {
+    const searchResult = document.querySelector('.input-search-result')
+    searchResult.classList.remove('show-search');
     const tableLines = document.querySelectorAll('.table-line')
     tableLines.forEach(item => {
         item.classList.remove('add-table-border')
@@ -66,11 +67,12 @@ export const clearSearch = () => {
     inputSearch.value = '';
     const searchResult = document.querySelector('.input-search-result');
     searchResult.innerText = '';
+    searchResult.classList.remove('show-search')
     const tableLines = document.querySelectorAll('.table-line')
     tableLines.forEach((item, index) => {
        item.classList.remove('add-table-border')
     })
-    const header = document.querySelector('.header-container')
+    const header = document.querySelector('.header-search-input-container')
     const button = document.querySelector('.clear-button');
     if (button) {
         header.removeChild(button);
@@ -93,8 +95,18 @@ export const headerRender = () => {
     searchContainer.className = 'header-search';
     headerContainer.append(searchContainer);
 
+    const searchInputContainer = document.createElement('div');
+    searchInputContainer.classList = 'header-search-input-container'
+
+    const inputSearch = document.createElement('input');
+    inputSearch.className = 'input-search';
+    inputSearch.placeholder = 'Введите запрос';
+    searchInputContainer.append(inputSearch)
+
     const searchResult = document.createElement('div');
     searchResult.className = 'input-search-result';
+
+    searchContainer.append(searchInputContainer, searchResult)
 
     // Вызывается контейнер после ввода текста в инпут поиска
     const resultSearch = async () => {
@@ -102,14 +114,13 @@ export const headerRender = () => {
         const inputValue = inputSearch.value;
         const clears = document.querySelectorAll('.clear-button')
         clears.forEach((item) => {
-            headerContainer.removeChild(item);
+            searchInputContainer.removeChild(item);
         })
         if (inputValue.length >= 0) {
             const clearButton = document.createElement("button");
             clearButton.classList = 'clear-button';
-            clearButton.innerText = 'очистить';
             clearButton.onclick = () => clearSearch();
-            headerContainer.append(clearButton)
+            searchInputContainer.append(clearButton)
         }
 
         searchResult.innerText = '';
@@ -118,6 +129,7 @@ export const headerRender = () => {
         if (!pattern.test(inputValue)) {
             let searchAllClients = await Api.get(`http://localhost:3000/api/clients?search=${inputValue}`);
             searchAllClients.map((item, index) => {
+                searchResult.classList.add('show-search');
                 const findClient = document.createElement('div');
                 findClient.classList = 'find-client';
                 findClient.innerText = `${item.surname} ${item.name} ${item.lastName}`;
@@ -129,17 +141,12 @@ export const headerRender = () => {
         }
     }
 
-    const inputSearch = document.createElement('input');
-    inputSearch.className = 'input-search';
-    inputSearch.placeholder = 'Введите запрос';
-
     let timer;
     inputSearch.onkeyup = () => {
         clearInterval(timer);
         timer = setTimeout(resultSearch, 2000)
     }
 
-    searchContainer.append(inputSearch, searchResult)
 }
 
 // Перерендер всего контента(таблицы)
@@ -150,7 +157,6 @@ export const reloadContent = () => {
         tableContent.removeChild(item)
     })
 }
-
 
 
 const sortParams = (keySort, direction) => {
@@ -166,19 +172,21 @@ headerRender()
 
 const container = document.getElementById('container');
 
+const heading = document.createElement('h2');
+heading.className = 'table-container-heading';
+heading.innerText = 'Клиенты';
+
+container.append(heading);
+
 const content = document.createElement('div');
 content.className = 'content';
 container.append(content);
+
 
 const tableContainer = document.createElement('div');
 tableContainer.className = 'table-container';
 content.append(tableContainer);
 
-const heading = document.createElement('h2');
-heading.className = 'table-container-heading';
-heading.innerText = 'Клиенты';
-
-tableContainer.append(heading);
 
 const table = document.createElement('table');
 table.className = 'table';
@@ -199,7 +207,7 @@ tdHeadingIdSort.className = 'image-sorting image-sorting-up';
 tdHeadingId.append(tdHeadingIdText, tdHeadingIdSort)
 
 const tdHeadingName = document.createElement('td');
-tdHeadingName.className = 'table-line-heading';
+tdHeadingName.className = 'table-line-heading heading-name';
 const tdHeadingNameText = document.createElement('div')
 tdHeadingNameText.innerText = 'Фамилия Имя Отчество';
 tdHeadingNameText.className = 'heading-name';
@@ -217,7 +225,8 @@ tdHeadingCreateDateText.innerText = 'Дата и время создания';
 tdHeadingCreateDateText.className = 'heading-createAt';
 const tdHeadingCreateDateSort = document.createElement('div');
 tdHeadingCreateDateSort.className = 'image-sorting image-sorting-down';
-tdHeadingCreateDate.append(tdHeadingCreateDateText, tdHeadingCreateDateSort)
+tdHeadingCreateDateText.append(tdHeadingCreateDateSort)
+tdHeadingCreateDate.append(tdHeadingCreateDateText)
 
 const tdHeadingUpdateDate = document.createElement('td');
 tdHeadingUpdateDate.className = 'table-line-heading';
@@ -226,7 +235,8 @@ tdHeadingUpdateDateText.innerText = 'Последнее изменение';
 tdHeadingUpdateDateText.className = 'heading-updateAt';
 const tdHeadingUpdateDateSort = document.createElement('div');
 tdHeadingUpdateDateSort.className = 'image-sorting image-sorting-down';
-tdHeadingUpdateDate.append(tdHeadingUpdateDateText, tdHeadingUpdateDateSort)
+tdHeadingUpdateDateText.append(tdHeadingUpdateDateSort)
+tdHeadingUpdateDate.append(tdHeadingUpdateDateText)
 
 const tdHeadingContacts = document.createElement('td');
 tdHeadingContacts.className = 'table-line-heading';
@@ -289,7 +299,7 @@ tableHeadings.forEach(item => {
         if (item.innerText === 'Дата и время создания') {
             const text = item.childNodes[0];
             text.classList.add('header-table-highlight');
-            const arrowUpDown = item.childNodes[1];
+            const arrowUpDown = text.childNodes[1];
             if (dir === 'asc') {
                 arrowUpDown.classList.remove('image-sorting-up')
                 arrowUpDown.classList.add('image-sorting-down')
@@ -306,7 +316,7 @@ tableHeadings.forEach(item => {
         if (item.innerText === 'Последнее изменение') {
             const text = item.childNodes[0];
             text.classList.add('header-table-highlight');
-            const arrowUpDown = item.childNodes[1];
+            const arrowUpDown = text.childNodes[1];
             if (dir === 'asc') {
                 arrowUpDown.classList.remove('image-sorting-up')
                 arrowUpDown.classList.add('image-sorting-down')
@@ -333,7 +343,7 @@ const renderTableClients = () => {
         id.className = 'cell-id table-content-cell';
         id.innerText = item.id.substr(7, 6);
         const name = document.createElement('td');
-        name.className = 'table-content-cell';
+        name.className = 'table-content-cell name-cell';
         name.innerText = `${item.surname} ${item.name} ${item.lastName}`;
         const createDate = document.createElement('td');
         createDate.className = 'table-content-cell';
@@ -345,11 +355,13 @@ const renderTableClients = () => {
         const changeDate = document.createElement('td');
         changeDate.className = 'table-content-cell';
         const spanCreatedTime = document.createElement('span');
+        spanCreatedTime.className = 'time';
         spanCreatedTime.innerText = convertCreatedDate.toLocaleString().slice(11, 17);
 
         changeDate.innerText = convertUpdatedDate.toLocaleString().slice(0, 10);
 
         const spanUpdatedTime = document.createElement('span');
+        spanUpdatedTime.className = 'time';
         spanUpdatedTime.innerText = convertUpdatedDate.toLocaleString().slice(11, 17);
 
         const contacts = document.createElement('td');
@@ -437,8 +449,8 @@ const renderTableClients = () => {
 
 const buttonAddClient = document.createElement('button');
 buttonAddClient.classList = 'button-add-client';
-buttonAddClient.innerText = 'добавить клиента';
-tableContainer.append(buttonAddClient)
+buttonAddClient.innerText = 'Добавить клиента';
+content.append(buttonAddClient)
 
 buttonAddClient.onclick = () => addClientModalRender();
 

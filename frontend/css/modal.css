@@ -4,12 +4,13 @@
     top: 0;
     right: 0;
     bottom: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: 3;
     background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    width: 100%;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease-in-out;
@@ -17,12 +18,23 @@
 
 .modal {
     background-color: #fff;
-    width: 300px;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 450px;
+    padding-bottom: 25px;
+    text-align: center;
     display: none;
+}
+
+.add-client-heading {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+}
+
+.add-modal-heading-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 27px 25px 30px;
+
 }
 
 .modal-overlay--visible {
@@ -36,12 +48,8 @@
 }
 
 .close-modal-btn {
-    position: absolute;
-    top: 23px;
-    right: 20px;
-    width: 20px;
-    height: 20px;
     cursor: pointer;
+    margin-right: 15px;
     border: none;
     outline: none;
     background-color: transparent;
@@ -69,25 +77,395 @@
 
 .close-modal-btn:hover::before,
 .close-modal-btn:hover::after {
-    background: var(--color-violet);
+    background: #B0B0B0;
 }
 
 .close-modal-btn:active::before,
 .close-modal-btn:active::after {
-    background: var(--color-dark-violet);
+    background: #B0B0B0;
 }
 
 .close-modal-btn:focus::before,
 .close-modal-btn:focus::after {
-    background: var(--color-violet);
+    background: #B0B0B0;
+}
+
+.add-modal-label {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #B0B0B0;
+}
+
+.add-modal-label::before {
+    content: "*";
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    left: 62px;
+    color: #9873FF;
+}
+
+.label-fix::before {
+    left: 30px;
+}
+
+
+.container-add-modal-fields {
+    display: flex;
+    flex-direction: column;
+    padding: 0 30px;
+}
+
+.field {
+    height: 30px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #C8C5D1;
+}
+
+.add-client-modal-label {
+    position:relative;
+    margin-bottom: 28px;
+}
+
+.placeholder {
+    position:absolute;
+    left:5px;
+    top:50%;
+    transform:translateY(-50%);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #B0B0B0;
+    pointer-events:none;
+}
+.required {
+    color: #9873FF;
+}
+
+.field:focus ~ .placeholder,
+.field:valid ~ .placeholder {
+    display:none;
+}
+
+.input-last-name::placeholder {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #B0B0B0;
+    pointer-events:none;
+}
+
+.input-last-name:focus::-webkit-input-placeholder {
+    color:transparent;
+}
+
+.btn-add-contacts {
+    position: relative;
+    padding: 8px 0 10px 10px;
+    text-align: center;
+    background-color: #E7E5EB;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    cursor: pointer;
+    transition: color .2s ease;
+}
+
+.btn-add-contacts::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 150px;
+    width: 16px;
+    height: 16px;
+    background-image: url("../image/add_circle_outline.svg");
+    background-repeat: no-repeat;
+    transition:  background-image .2s ease;
+}
+
+.btn-add-contacts:hover {
+    color: #9873FF;
+}
+
+.btn-add-contacts:hover::before {
+    background-image: url("../image/hoveradd.svg");
+}
+
+.add-client-form-modal__contacts {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #E7E5EB;
+}
+
+.field-contacts-container {
+    padding: 25px 30px 12px 30px;
+}
+
+.field-contact {
+    display: flex;
+    margin-bottom: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.field-contact:first-child {
+    padding-top: 25px;
+}
+
+.field-contact:last-child {
+    padding-bottom: 15px;
+}
+
+.select-contact {
+    width: 50%;
+    background-color: #C8C5D1;
+    border: 1px solid #C8C5D1;
+}
+
+.input-contact {
+    background-color: inherit;
+    padding: 0 10px;
+    border: 1px solid #C8C5D1;
+}
+
+.btn-delete-contact {
+    background-color: #C8C5D1;
+    width: 40px;
+    border: 1px solid #C8C5D1;
+    background-image: url(../image/close-contact.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    transition: border .3s ease, background-image .3s ease;
+}
+
+.btn-delete-contact:hover {
+    border: 1px solid #F06A4D;
+    background-image: url(../image/close-contact-hover.svg);
 }
 
 .button-save-client {
-    padding: 40px;
+    width: 147px;
+    height: 44px;
+    border: none;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    color: white;
+    background-color: #9873FF;
+    transition: background-color .3s ease;
 }
 
-.button-save-client .loader-container {
-    top: 33%;
-    left: 10%;
-    background-color: initial;
+.button-save-client:hover {
+    background-color: #B89EFF;
 }
+
+.button-save-client:active {
+    background-color: #8052FF;
+}
+
+
+.add-modal-cancel {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    text-decoration-line: underline;
+    cursor: pointer;
+    transition: color .3s ease;
+}
+
+.add-modal-cancel:hover {
+    color: #9873FF;
+}
+
+.add-modal-cancel:active {
+    color: #8052FF;
+}
+
+/*/modal update/*/
+
+.update-modal-heading-container {
+    display: flex;
+    align-items: center;
+    padding: 25px 19px 18px 33px;
+}
+
+.update-client-heading {
+    margin-right: 18px;
+}
+
+.update-modal-id-client {
+    margin-top: 2px;
+    margin-right: 134px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B0B0B0;
+}
+
+.container-update-modal-fields {
+    display: flex;
+    flex-direction: column;
+    padding: 0 30px;
+    margin-bottom: 10px;
+    text-align: initial;
+}
+
+.update-client-modal-label {
+    position: relative;
+    display: flex;
+    margin-bottom: 19px;
+    flex-direction: column;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    color: #B0B0B0;
+    cursor: pointer;
+}
+
+.update-client-modal-label::before {
+    content: '*';
+    position: absolute;
+    left: 43px;
+    color: #9873FF;
+}
+
+.update-label-fix::before {
+    left: 21px;
+}
+
+.update-label-fixed::before {
+    content: none;
+}
+
+.update-field {
+    height: 23px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    color: #333333;
+}
+
+.update-select {
+    height: 37px;
+    padding-left: 7px;
+    background-color: #C8C5D1;
+    border: 1px solid #C8C5D1;
+}
+
+.update-field-contact {
+    margin-bottom: 15px;
+}
+
+.update-field-contact:last-child {
+    margin-bottom: 5px;
+}
+
+.field-update {
+    width: 100%;
+}
+
+.btn-delete-edit-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.update-client-form-modal {
+    margin-bottom: 37px;
+}
+
+.update-save-client {
+    width: auto;
+    height: auto;
+    padding: 12px 45px;
+
+}
+
+.update-modal-cancel {
+    border: none;
+    background-color: inherit;
+}
+
+/*delete modal*/
+
+.delete-client-form-modal {
+    display: flex;
+    flex-direction: column;
+}
+
+.delete-modal-heading-container {
+    position: relative;
+}
+
+.delete-modal-heading {
+    display: flex;
+    padding: 22px 0 0 0;
+    margin-bottom: 11px;
+    font-weight: 700;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 25px;
+}
+.btn-close-delete-modal {
+    position: absolute;
+    top: 30px;
+    right: 24px;
+}
+
+.delete-modal-description {
+    padding: 0 105px;
+    margin-bottom: 25px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+.delete-modal-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-delete-modal {
+    width: auto;
+    height: auto;
+    padding: 13px 30px;
+}
+
+.button-delete-modal .loader-container {
+    top: 12px;
+    left: 9px;
+}
+
+.delete-modal-button-cancel {
+    border: none;
+    background-color: inherit;
+}
+
+.error-container {
+    margin-bottom: 20px;
+    color: red;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+}
+
+
+
+
+
+
+

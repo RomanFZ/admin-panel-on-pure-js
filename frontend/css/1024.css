@@ -1,0 +1,16 @@
+@media (min-width: 991px) and (max-width: 1070px) {
+
+    .table-content-cell {
+        min-width: 145px;
+        padding: 0 15px;
+    }
+
+    .name-cell {
+        white-space: normal;
+    }
+
+    .table-container {
+        padding: 0 10px;
+    }
+
+}

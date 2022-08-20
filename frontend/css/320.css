@@ -1,0 +1,65 @@
+@media (max-width: 767px) {
+
+    .header-container {
+        flex-direction: column;
+        height: 150px;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .header-logo {
+        margin: 0 0 15px 0;
+        padding: 0;
+    }
+
+    .input-search {
+        width: 80vw;
+    }
+
+    .input-search-result {
+        width: 80%;
+    }
+
+
+    .content {
+        display: block;
+        text-align: center;
+    }
+
+    .table-container {
+        text-align: initial;
+        width: 720px;
+    }
+
+    .modal {
+        width: 300px;
+    }
+
+    .btn-add-contacts::before {
+        top: 10px;
+        left: 74px;
+    }
+
+    .update-modal-id-client {
+        margin-top: 0;
+        margin-right: 0;
+    }
+
+    .update-client-heading {
+        margin-right: 6px;
+    }
+
+    .update-modal-heading-container {
+        padding: 25px 12px 19px 26px;
+    }
+
+    .close-modal-btn-update {
+        margin-left: 10px;
+        margin-top: -38px;
+    }
+
+    .delete-modal-description {
+        padding: 0 50px;
+    }
+
+}

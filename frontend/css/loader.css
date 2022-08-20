@@ -1,12 +1,18 @@
+.loader-container {
+    display: table-cell;
+    height: 150px;
+    background-color: inherit;
+}
+
 .loader {
     animation: rotate 2s linear infinite;
     z-index: 2;
     position: absolute;
-    top: 0;
-    left:0;
+    top: -7%;
+    left: 0;
     margin: 0;
-    width: 25px;
-    height: 25px;
+    width: 21px;
+    height: 21px;
 }
 
 .path {
@@ -36,27 +42,14 @@
     }
 }
 
-/*.big-loader {*/
-/*  width: 120px;*/
-/*  height: 115px;*/
-/*}*/
-
 .show-loader {
     position: relative;
 }
 
-
-.loader-container {
-    position: absolute;
-    display: inline-block;
-    z-index: 1;
-    top: 25%;
-    background-color: inherit;
-    left: 43%;
-}
-
-
 .big-loader .loader-container .loader {
+    top: 30%;
+    left: 50%;
+    margin-left: -45px;
     width: 75px;
     height: 75px;
     background-color: inherit;
@@ -64,15 +57,21 @@
 
 .mini-loader .loader-container {
     position: absolute;
+    width: 15px;
+    height: 15px;
     display: inline-block;
-    z-index: 1;
-    top: -9%;
-    width: 25px;
-    height: 25px;
-    background-color: white;
-    left: -5px;
+    background-color: inherit;
 }
 
 .mini-loader .path {
     stroke-width: 4;
+}
+
+.save-loader .path {
+    stroke: white;
+}
+
+.save-loader .loader-container {
+    top: 22%;
+    left: 12%;
 }

@@ -1,17 +1,17 @@
 .content {
     display: flex;
-    padding-left: 97px;
-    padding-top: 43px;
     justify-content: center;
-    background-color: #F5F5F5;
+    align-items: center;
+    flex-direction: column;
 }
 
-/*.table-container {*/
-/*  width: 1186px;*/
-/*}*/
+.table-container {
+    margin-bottom: 40px;
+}
 
 .table-container-heading {
-    margin-bottom: 16px;
+    margin-bottom: 10px;
+    padding-left: 40px;
     font-weight: 700;
     font-size: 24px;
     line-height: 33px;
@@ -58,15 +58,11 @@
 
 .table-content {
     background-color: white;
-    height: 200px;
 }
 
 .table-line {
     height: 60px;
-}
-
-.table-line:not(:last-child) {
-    border-bottom: 1px solid #C8C5D1;
+    border-bottom: 1px solid #c8c5d185;
 }
 
 .table-line-heading {
@@ -83,31 +79,70 @@
     color: #B0B0B0;
 }
 
+.time {
+    font-weight: 400;
+    font-size: 14px;
+    color: #B0B0B0;
+}
+
+.cell-contacts {
+    min-width: 130px;
+    max-width: 130px;
+    padding: 0;
+    white-space: normal;
+}
 
 .icon-contact {
     width: 16px;
     height: 16px;
     display: inline-block;
+    margin-right: 7px;
+    cursor: pointer;
 }
 
 .tel {
     background: url(/image/phone.svg) no-repeat;
+    transition: background-image .3s ease;
+}
+
+.tel:hover {
+    background: url(/image/phonehover.svg) no-repeat;
 }
 
 .email {
     background: url(/image/mail.svg) no-repeat;
+    transition: background-image .3s ease;
+}
+
+.email:hover {
+    background: url(/image/mailHover.svg);
 }
 
 .vk {
     background: url(/image/vk.svg) no-repeat;
+    transition: background-image .3s ease;
+}
+
+.vk:hover {
+    background: url(/image/vkHover.svg);
 }
 
 .facebook {
     background: url(/image/fb.svg) no-repeat;
+    transition: background-image .3s ease;
+}
+
+.facebook:hover {
+    background: url(/image/fbHover.svg);
 }
 
 .other {
     background: url(/image/other.svg) no-repeat;
+    transition: background-image .3s ease;
+}
+
+.other:hover {
+    background: url(/image/otherHover.svg);
 }
 
 /* ALL TOOLTIP STYLES */
@@ -188,7 +223,7 @@
 }
 
 .add-table-border {
-    border: 1px solid red;
+    outline: 2px solid #8052FF;
 }
 
 .btn {
@@ -201,6 +236,7 @@
 
 
 .image-sorting {
+    display: inline-block;
     width: 10px;
     height: 10px;
     margin-right: 7px;
@@ -223,6 +259,7 @@
 .edit-button-container,
 .delete-button-container {
     display: flex;
+    background-color: white;
 }
 
 .edit-delete-button {
@@ -232,10 +269,21 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 19px;
+    transition: color .3s ease;
+}
+
+
+.edit-delete-button:hover {
+    color: #F06A4D;
 }
 
 .edit-button {
     margin-right: 20px;
+    transition: color .3s ease;
+}
+
+.edit-button:hover {
+    color: #9873FF;
 }
 
 .edit-button-image {
@@ -255,3 +303,49 @@
     display: inline-block;
     cursor: pointer;
 }
+
+.button-add-client {
+    position: relative;
+    width: 216px;
+    height: 44px;
+    padding-left: 33px;
+    border: 1px solid #9873FF;
+    background-color: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    color: #9873FF;
+    transition: background-color .3s ease, color .3s ease, border .3s ease;
+}
+
+.button-add-client::before {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 16px;
+    left: 22px;
+    background-image: url("../image/addClient.svg");
+    background-repeat: no-repeat;
+    transition: background-image .3s ease;
+}
+
+.button-add-client:hover {
+    color: white;
+    background-color: #B89EFF;
+    border: 1px solid #B89EFF;
+}
+
+.button-add-client:hover::before {
+    background-image: url("../image/addClientHover.svg");
+}
+
+.button-add-client:active::before {
+    background-image: url("../image/addClientHover.svg");
+}
+
+.button-add-client:active {
+    color: white;
+    background-color: #8052FF;
+    border: 1px solid #8052FF;
+}
+

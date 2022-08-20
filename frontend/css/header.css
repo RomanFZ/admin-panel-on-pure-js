@@ -2,7 +2,8 @@
     display: flex;
     align-items: center;
     height: 72px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+    background-color: white;
 }
 
 .header-logo {
@@ -11,15 +12,92 @@
 }
 
 .input-search {
+    position: relative;
     height: 44px;
     width: 581px;
     padding-left: 15px;
+    border: 1px solid rgba(51, 51, 51, 0.2);
+    outline: none;
     font-weight: 400;
     font-size: 14px;
     line-height: 19px;
-    border: 1px solid rgba(51, 51, 51, 0.2);
 }
 
 .input-search::placeholder {
     color: #B0B0B0;
+}
+
+
+.input-search-result {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: 53%;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.find-client {
+    padding: 5px;
+}
+
+.find-client:hover {
+    background-color: #B89EFF;
+}
+
+.find-client:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.show-search {
+    display: block;
+}
+
+.header-search-input-container {
+    position: relative;
+}
+
+.clear-button {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    transition: all .3s ease;
+}
+
+.clear-button::before,
+.clear-button::after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: #000;
+    transition: all .3s ease;
+}
+
+.clear-button::before {
+    transform: rotate(45deg);
+}
+
+.clear-button::after {
+    transform: rotate(-45deg);
+}
+
+.clear-button:hover::before,
+.clear-button:hover::after {
+    background: #B0B0B0;
+}
+
+.clear-button:active::before,
+.clear-button:active::after {
+    background: #B0B0B0;
+}
+
+.clear-button:focus::before,
+.clear-button:focus::after {
+    background: #B0B0B0;
 }

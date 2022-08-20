@@ -2,6 +2,9 @@
 @import "table.css";
 @import "modal.css";
 @import "header.css";
+@import "1024.css";
+@import "990.css";
+@import "320.css";
 
 * {
   box-sizing: border-box;
@@ -19,6 +22,10 @@ button {
   cursor: pointer;
 }
 
+body {
+  background-color: #F5F5F5;
+}
+
 ul {
   margin: 0;
   padding: 0;
@@ -33,10 +40,6 @@ h1,
 h2,
 h3 {
   margin: 0;
-}
-
-.container {
-
 }
 
 

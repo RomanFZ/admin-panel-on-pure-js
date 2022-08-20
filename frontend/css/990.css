@@ -1,0 +1,40 @@
+@media (max-width: 990px) {
+
+    .table-content-cell {
+        white-space: normal;
+    }
+
+    .table-content-cell {
+        padding: 0 7px;
+    }
+
+    .time {
+        display: block;
+    }
+
+    .table-line-heading {
+        white-space: normal;
+        padding: 3px 10px;
+    }
+
+    .heading-name {
+        white-space: nowrap;
+    }
+
+    .image-sorting-up {
+        display: inline-block;
+    }
+
+    .image-sorting-down {
+        display: inline-block;
+    }
+
+    .cell-contacts {
+        width: 135px;
+    }
+
+    .buttons-container {
+        flex-direction: column;
+    }
+
+}
