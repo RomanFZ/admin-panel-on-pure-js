@@ -1,0 +1,16 @@
+@media (min-width: 1367px) {
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-container {
+        width: 100vw;
+        align-items: center;
+        justify-content: center;
+    }
+
+}

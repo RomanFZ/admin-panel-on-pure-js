@@ -27,12 +27,10 @@
     color: #B0B0B0;
 }
 
-
 .input-search-result {
     display: none;
     position: absolute;
     background-color: white;
-    width: 53%;
     padding: 10px 15px;
     cursor: pointer;
 }
