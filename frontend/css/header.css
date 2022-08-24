@@ -57,8 +57,10 @@
 
 .clear-button {
     position: absolute;
-    top: 20px;
-    right: 25px;
+    top: 8px;
+    right: 12px;
+    height: 25px;
+    width: 25px;
     cursor: pointer;
     border: none;
     outline: none;

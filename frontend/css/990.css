@@ -30,7 +30,7 @@
     }
 
     .cell-contacts {
-        width: 135px;
+        min-width: 129px;
     }
 
     .buttons-container {

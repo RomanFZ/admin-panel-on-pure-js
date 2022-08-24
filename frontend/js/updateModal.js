@@ -30,6 +30,7 @@ const closeUpdateModal = () => {
     container.removeChild(modalOverlay)
     client = [];
     idClient = null;
+    history.pushState("", document.title, window.location.pathname);
 }
 
 const updateClient = async (inputSurnameValue, inputNameValue, inputLastnameValue) => {
@@ -54,6 +55,7 @@ const updateClient = async (inputSurnameValue, inputNameValue, inputLastnameValu
     getClients();
 }
 
+
 const updateClientModalRender = (client) => {
     const modalOverlay = document.createElement('div');
     modalOverlay.classList = 'modal-overlay modal-overlay--visible';
@@ -76,6 +78,7 @@ const updateClientModalRender = (client) => {
     headingUpdateIdClient.className = 'update-modal-id-client'
     headingUpdateIdClient.innerText = `ID: ${client.id.substr(7, 6)}`;
     headingContainerUpdateClientModal.append(headingUpdateIdClient)
+    window.location.hash = client.id;
 
     const buttonCloseModal = document.createElement('button');
     buttonCloseModal.className = 'close-modal-btn close-modal-btn-update';
@@ -175,6 +178,7 @@ const updateClientModalRender = (client) => {
 
             const buttonDeleteContact = document.createElement('div');
             buttonDeleteContact.className = 'btn-delete-contact';
+            buttonDeleteContact.setAttribute('tooltip', 'Удалить контакт');
 
             const deleteContact = () => {
                 containerFieldsContacts.removeChild(fieldContactOld)
@@ -187,7 +191,6 @@ const updateClientModalRender = (client) => {
 
         const updateFieldContact = () => {
             const verifyContact = document.querySelectorAll('.field-contact')
-            console.log(verifyContact)
             if (verifyContact.length === 10) {
                 errorMessage('Максимально количество контактов 10')
             } else {
@@ -218,6 +221,7 @@ const updateClientModalRender = (client) => {
 
                 const buttonDeleteContact = document.createElement('div');
                 buttonDeleteContact.className = 'btn-delete-contact';
+                buttonDeleteContact.setAttribute('tooltip', 'Удалить контакт');
 
                 const deleteContact = () => {
                     disableError();

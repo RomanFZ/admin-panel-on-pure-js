@@ -7,6 +7,7 @@
 
 .table-container {
     margin-bottom: 40px;
+    overflow: auto;
 }
 
 .table-container-heading {
@@ -98,6 +99,54 @@
     display: inline-block;
     margin-right: 7px;
     cursor: pointer;
+}
+
+.more-cell.icon-contact {
+    display: inline-block;
+}
+
+.more {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    padding: 2px;
+    display: inline-block;
+    border: 1px solid #B89EFF;
+    border-radius: 100%;
+    margin-right: 7px;
+    cursor: pointer;
+    transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+
+.more:hover {
+    border-color: #9873FF;
+    color: white;
+    background-color: #9873FF;
+}
+
+.more-count {
+    position: absolute;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 8px;
+    line-height: 11px;
+}
+
+.hide-more {
+    display: none;
+}
+
+.icon-contact:nth-child(n + 6) {
+    display: none;
+}
+
+.icon-contact-hide:nth-child(n + 5) {
+    display: none;
+}
+
+
+.more-cell .icon-contact {
+    display: inline-block;
 }
 
 .tel {

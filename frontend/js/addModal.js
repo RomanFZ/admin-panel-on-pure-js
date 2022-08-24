@@ -13,11 +13,9 @@ export const addContacts = () => {
     document.querySelectorAll('.select-contact').forEach( function (select) {
         arrayTypesContacts.push(select.value)
     })
-
     document.querySelectorAll('.input-contact').forEach( function (input) {
         arrayValueContacts.push(input.value)
     })
-
     return Object.assign(arrayTypesContacts.map((n, i) => ({'type' : n, 'value' : arrayValueContacts[i]})));
 }
 
@@ -42,7 +40,6 @@ export const errorMessage = (error) => {
 }
 
 export const disableError = () => {
-    console.log('я туттут')
     const addModalContainer = document.querySelector('.add-client-form-modal');
     const oldErrorContainer = document.querySelector('.error-container');
     if (oldErrorContainer) {
@@ -77,7 +74,6 @@ export const validate = (surname, name, lastname, arrayContacts) => {
         }
         if (item.type === 'Email') {
             if (item.value.search(patternEmail) === -1) {
-                console.log('item.value', item.value)
                 errorMessage('Некорректный email');
                 return true;
             }
@@ -138,7 +134,6 @@ export const addClientModalRender = () => {
     const containerAddClientModal = document.createElement('form');
     containerAddClientModal.className = 'add-client-form-modal modal modal--visible formWithValidation';
     modalOverlay.append(containerAddClientModal);
-
 
     const headingContainerAddClientModal = document.createElement('div');
     headingContainerAddClientModal.className = 'add-modal-heading-container';
@@ -208,7 +203,6 @@ export const addClientModalRender = () => {
 
     const addFieldContact = () => {
         const verifyContact = document.querySelectorAll('.field-contact')
-        console.log(verifyContact)
         if (verifyContact.length === 10) {
             errorMessage('Максимально количество контактов 10')
         } else {

@@ -23,11 +23,15 @@
 
     .table-container {
         text-align: initial;
-        width: 720px;
+    }
+
+    .table {
+        overflow-x: auto;
     }
 
     .modal {
-        width: 300px;
+        min-width: 300px;
+        max-width: 310px;
     }
 
     .btn-add-contacts::before {

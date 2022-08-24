@@ -9,10 +9,8 @@ let allClients = [];
 let key = 'id';
 let dir = 'asc';
 
-
 // Запрос всех клиентов
 export const getClients = async () => {
-
     const tableContent = document.querySelector('.table-content')
     tableContent.classList.add('show-loader');
     tableContent.classList.add('big-loader');
@@ -42,6 +40,21 @@ const goToClient = (id) => {
     })
 
 }
+
+// проверка хеша
+window.addEventListener('hashchange',() =>{
+    const hash = window.location.hash.split('#').pop();
+    const array = Array.from(hash);
+    const modal = document.querySelector('.modal');
+    if (array.length === 13 && !modal) {
+        const editButtonContainers = document.querySelectorAll('.edit-button-container');
+        editButtonContainers.forEach(item => {
+            item.classList.add('mini-loader');
+            item.classList.add('show-loader');
+        })
+        getToUpdateClient(hash);
+    }
+});
 
 // При клике на наиденные данные клиентов, записывается значение в поле поиска и добавляется бордер для элемента
 const onclickSearchResult = (client) => {
@@ -168,175 +181,193 @@ const sortParams = (keySort, direction) => {
     }
 }
 
-headerRender()
-
-const container = document.getElementById('container');
-
-const heading = document.createElement('h2');
-heading.className = 'table-container-heading';
-heading.innerText = 'Клиенты';
-
-container.append(heading);
-
-const content = document.createElement('div');
-content.className = 'content';
-container.append(content);
-
-
-const tableContainer = document.createElement('div');
-tableContainer.className = 'table-container';
-content.append(tableContainer);
-
-
-const table = document.createElement('table');
-table.className = 'table';
-tableContainer.append(table)
-
-const thead = document.createElement('thead');
-thead.className = 'table-heading';
-const trHead = document.createElement('tr')
-trHead.className = 'table-head-line-heading';
-
-const tdHeadingId = document.createElement('td');
-tdHeadingId.className = 'table-line-heading';
-const tdHeadingIdText = document.createElement('div')
-tdHeadingIdText.innerText = 'ID';
-tdHeadingIdText.className = 'heading-id header-table-highlight';
-const tdHeadingIdSort = document.createElement('div');
-tdHeadingIdSort.className = 'image-sorting image-sorting-up';
-tdHeadingId.append(tdHeadingIdText, tdHeadingIdSort)
-
-const tdHeadingName = document.createElement('td');
-tdHeadingName.className = 'table-line-heading heading-name';
-const tdHeadingNameText = document.createElement('div')
-tdHeadingNameText.innerText = 'Фамилия Имя Отчество';
-tdHeadingNameText.className = 'heading-name';
-const tdHeadingNameSort = document.createElement('div');
-tdHeadingNameSort.className = 'image-sorting image-sorting-down';
-const sortingDirection = document.createElement('div');
-sortingDirection.className = 'sorting-direction';
-sortingDirection.innerText = 'Я-А';
-tdHeadingName.append(tdHeadingNameText, tdHeadingNameSort, sortingDirection)
-
-const tdHeadingCreateDate = document.createElement('td');
-tdHeadingCreateDate.className = 'table-line-heading';
-const tdHeadingCreateDateText = document.createElement('div')
-tdHeadingCreateDateText.innerText = 'Дата и время создания';
-tdHeadingCreateDateText.className = 'heading-createAt';
-const tdHeadingCreateDateSort = document.createElement('div');
-tdHeadingCreateDateSort.className = 'image-sorting image-sorting-down';
-tdHeadingCreateDateText.append(tdHeadingCreateDateSort)
-tdHeadingCreateDate.append(tdHeadingCreateDateText)
-
-const tdHeadingUpdateDate = document.createElement('td');
-tdHeadingUpdateDate.className = 'table-line-heading';
-const tdHeadingUpdateDateText = document.createElement('div')
-tdHeadingUpdateDateText.innerText = 'Последнее изменение';
-tdHeadingUpdateDateText.className = 'heading-updateAt';
-const tdHeadingUpdateDateSort = document.createElement('div');
-tdHeadingUpdateDateSort.className = 'image-sorting image-sorting-down';
-tdHeadingUpdateDateText.append(tdHeadingUpdateDateSort)
-tdHeadingUpdateDate.append(tdHeadingUpdateDateText)
-
-const tdHeadingContacts = document.createElement('td');
-tdHeadingContacts.className = 'table-line-heading';
-tdHeadingContacts.innerText = 'Контакты';
-
-
-const tdHeadingButtons = document.createElement('td');
-tdHeadingButtons.className = 'table-line-heading';
-tdHeadingButtons.innerText = 'Действия';
-table.append(thead);
-thead.append(trHead);
-trHead.append(tdHeadingId, tdHeadingName, tdHeadingCreateDate, tdHeadingUpdateDate, tdHeadingContacts, tdHeadingButtons)
-
-const tbody = document.createElement('tbody');
-tbody.className = 'table-content';
-table.append(tbody);
-
-const tableHeadings = document.querySelectorAll('.table-line-heading');
-
-tableHeadings.forEach(item => {
-    item.addEventListener('click', function () {
-        if (item.innerText === 'ID') {
-            const text = item.childNodes[0];
-            text.classList.add('header-table-highlight')
-            const arrowUpDown = item.childNodes[1];
-            if (dir === 'asc') {
-                arrowUpDown.classList.remove('image-sorting-up')
-                arrowUpDown.classList.add('image-sorting-down')
-                sortParams('id','desc')
-            } else {
-                arrowUpDown.classList.add('image-sorting-up')
-                arrowUpDown.classList.remove('image-sorting-down')
-                sortParams('id','asc')
-            }
-        } else {
-            const noUnderlineHeading = document.querySelector('.heading-id')
-            noUnderlineHeading.classList.remove('header-table-highlight')
-        }
-        if (item.childNodes[0].innerText === 'Фамилия Имя Отчество') {
-            console.log('я здесь');
-            const text = item.childNodes[0];
-            const sortDir = item.childNodes[2];
-            text.classList.add('header-table-highlight');
-            const arrowUpDown = item.childNodes[1];
-            if (dir === 'asc') {
-                sortDir.innerText = 'Я-А';
-                arrowUpDown.classList.remove('image-sorting-up')
-                arrowUpDown.classList.add('image-sorting-down')
-                sortParams('surname','desc')
-            } else {
-                sortDir.innerText = 'А-Я';
-                arrowUpDown.classList.add('image-sorting-up')
-                arrowUpDown.classList.remove('image-sorting-down')
-                sortParams('surname','asc')
-            }
-        } else {
-            const noUnderlineHeading = document.querySelector('.heading-name')
-            noUnderlineHeading.classList.remove('header-table-highlight')
-        }
-        if (item.innerText === 'Дата и время создания') {
-            const text = item.childNodes[0];
-            text.classList.add('header-table-highlight');
-            const arrowUpDown = text.childNodes[1];
-            if (dir === 'asc') {
-                arrowUpDown.classList.remove('image-sorting-up')
-                arrowUpDown.classList.add('image-sorting-down')
-                sortParams('createdAt','desc')
-            } else {
-                arrowUpDown.classList.add('image-sorting-up')
-                arrowUpDown.classList.remove('image-sorting-down')
-                sortParams('createdAt','asc')
-            }
-        } else {
-            const noUnderlineHeading = document.querySelector('.heading-createAt')
-            noUnderlineHeading.classList.remove('header-table-highlight')
-        }
-        if (item.innerText === 'Последнее изменение') {
-            const text = item.childNodes[0];
-            text.classList.add('header-table-highlight');
-            const arrowUpDown = text.childNodes[1];
-            if (dir === 'asc') {
-                arrowUpDown.classList.remove('image-sorting-up')
-                arrowUpDown.classList.add('image-sorting-down')
-                sortParams('updatedAt','desc')
-            } else {
-                arrowUpDown.classList.add('image-sorting-up')
-                arrowUpDown.classList.remove('image-sorting-down')
-                sortParams('updatedAt','asc')
-            }
-        } else {
-            const noUnderlineHeading = document.querySelector('.heading-updateAt')
-            noUnderlineHeading.classList.remove('header-table-highlight')
-        }
+const onClickMoreContacts = () => {
+    const spanContactsMoreButtons = document.querySelectorAll('.more');
+    spanContactsMoreButtons.forEach(moreBtn => {
+        moreBtn.addEventListener('click', (ev) => {
+            const cell = moreBtn.parentNode;
+            cell.classList.add('more-cell')
+            moreBtn.classList.add('hide-more');
+        })
     })
-})
+}
+
+const mainRender = () => {
+    const container = document.getElementById('container');
+
+    const heading = document.createElement('h2');
+    heading.className = 'table-container-heading';
+    heading.innerText = 'Клиенты';
+
+    container.append(heading);
+
+    const content = document.createElement('div');
+    content.className = 'content';
+    container.append(content);
+
+
+    const tableContainer = document.createElement('div');
+    tableContainer.className = 'table-container';
+    content.append(tableContainer);
+
+
+    const table = document.createElement('table');
+    table.className = 'table';
+    tableContainer.append(table)
+
+    const thead = document.createElement('thead');
+    thead.className = 'table-heading';
+    const trHead = document.createElement('tr')
+    trHead.className = 'table-head-line-heading';
+
+    const tdHeadingId = document.createElement('td');
+    tdHeadingId.className = 'table-line-heading';
+    const tdHeadingIdText = document.createElement('div')
+    tdHeadingIdText.innerText = 'ID';
+    tdHeadingIdText.className = 'heading-id header-table-highlight';
+    const tdHeadingIdSort = document.createElement('div');
+    tdHeadingIdSort.className = 'image-sorting image-sorting-up';
+    tdHeadingId.append(tdHeadingIdText, tdHeadingIdSort)
+
+    const tdHeadingName = document.createElement('td');
+    tdHeadingName.className = 'table-line-heading';
+    const tdHeadingNameText = document.createElement('div')
+    tdHeadingNameText.innerText = 'Фамилия Имя Отчество';
+    tdHeadingNameText.className = 'heading-name';
+    const tdHeadingNameSort = document.createElement('div');
+    tdHeadingNameSort.className = 'image-sorting image-sorting-down';
+    const sortingDirection = document.createElement('div');
+    sortingDirection.className = 'sorting-direction';
+    sortingDirection.innerText = 'Я-А';
+    tdHeadingName.append(tdHeadingNameText, tdHeadingNameSort, sortingDirection)
+
+    const tdHeadingCreateDate = document.createElement('td');
+    tdHeadingCreateDate.className = 'table-line-heading';
+    const tdHeadingCreateDateText = document.createElement('div')
+    tdHeadingCreateDateText.innerText = 'Дата и время создания';
+    tdHeadingCreateDateText.className = 'heading-createAt';
+    const tdHeadingCreateDateSort = document.createElement('div');
+    tdHeadingCreateDateSort.className = 'image-sorting image-sorting-down';
+    tdHeadingCreateDateText.append(tdHeadingCreateDateSort)
+    tdHeadingCreateDate.append(tdHeadingCreateDateText)
+
+    const tdHeadingUpdateDate = document.createElement('td');
+    tdHeadingUpdateDate.className = 'table-line-heading';
+    const tdHeadingUpdateDateText = document.createElement('div')
+    tdHeadingUpdateDateText.innerText = 'Последнее изменение';
+    tdHeadingUpdateDateText.className = 'heading-updateAt';
+    const tdHeadingUpdateDateSort = document.createElement('div');
+    tdHeadingUpdateDateSort.className = 'image-sorting image-sorting-down';
+    tdHeadingUpdateDateText.append(tdHeadingUpdateDateSort)
+    tdHeadingUpdateDate.append(tdHeadingUpdateDateText)
+
+    const tdHeadingContacts = document.createElement('td');
+    tdHeadingContacts.className = 'table-line-heading';
+    tdHeadingContacts.innerText = 'Контакты';
+
+
+    const tdHeadingButtons = document.createElement('td');
+    tdHeadingButtons.className = 'table-line-heading';
+    tdHeadingButtons.innerText = 'Действия';
+    table.append(thead);
+    thead.append(trHead);
+    trHead.append(tdHeadingId, tdHeadingName, tdHeadingCreateDate, tdHeadingUpdateDate, tdHeadingContacts, tdHeadingButtons)
+
+    const tbody = document.createElement('tbody');
+    tbody.className = 'table-content';
+    table.append(tbody);
+
+    const tableHeadings = document.querySelectorAll('.table-line-heading');
+
+    tableHeadings.forEach(item => {
+        item.addEventListener('click', function () {
+            const nameItem = item.childNodes[0];
+            if (item.innerText === 'ID') {
+                const text = item.childNodes[0];
+                text.classList.add('header-table-highlight')
+                const arrowUpDown = item.childNodes[1];
+                if (dir === 'asc') {
+                    arrowUpDown.classList.remove('image-sorting-up')
+                    arrowUpDown.classList.add('image-sorting-down')
+                    sortParams('id','desc')
+                } else {
+                    arrowUpDown.classList.add('image-sorting-up')
+                    arrowUpDown.classList.remove('image-sorting-down')
+                    sortParams('id','asc')
+                }
+            } else {
+                const noUnderlineHeading = document.querySelector('.heading-id')
+                noUnderlineHeading.classList.remove('header-table-highlight')
+            }
+            if (nameItem.innerText === 'Фамилия Имя Отчество') {
+                const text = nameItem;
+                const sortDir = item.childNodes[2];
+                text.classList.add('header-table-highlight');
+                const arrowUpDown = item.childNodes[1];
+                if (dir === 'asc') {
+                    sortDir.innerText = 'Я-А';
+                    arrowUpDown.classList.remove('image-sorting-up')
+                    arrowUpDown.classList.add('image-sorting-down')
+                    sortParams('surname','desc')
+                } else {
+                    sortDir.innerText = 'А-Я';
+                    arrowUpDown.classList.add('image-sorting-up')
+                    arrowUpDown.classList.remove('image-sorting-down')
+                    sortParams('surname','asc')
+                }
+            } else {
+                const noUnderlineHeading = document.querySelector('.heading-name')
+                noUnderlineHeading.classList.remove('header-table-highlight')
+            }
+            if (item.innerText === 'Дата и время создания') {
+                const text = item.childNodes[0];
+                text.classList.add('header-table-highlight');
+                const arrowUpDown = text.childNodes[1];
+                if (dir === 'asc') {
+                    arrowUpDown.classList.remove('image-sorting-up')
+                    arrowUpDown.classList.add('image-sorting-down')
+                    sortParams('createdAt','desc')
+                } else {
+                    arrowUpDown.classList.add('image-sorting-up')
+                    arrowUpDown.classList.remove('image-sorting-down')
+                    sortParams('createdAt','asc')
+                }
+            } else {
+                const noUnderlineHeading = document.querySelector('.heading-createAt')
+                noUnderlineHeading.classList.remove('header-table-highlight')
+            }
+            if (item.innerText === 'Последнее изменение') {
+                const text = item.childNodes[0];
+                text.classList.add('header-table-highlight');
+                const arrowUpDown = text.childNodes[1];
+                if (dir === 'asc') {
+                    arrowUpDown.classList.remove('image-sorting-up')
+                    arrowUpDown.classList.add('image-sorting-down')
+                    sortParams('updatedAt','desc')
+                } else {
+                    arrowUpDown.classList.add('image-sorting-up')
+                    arrowUpDown.classList.remove('image-sorting-down')
+                    sortParams('updatedAt','asc')
+                }
+            } else {
+                const noUnderlineHeading = document.querySelector('.heading-updateAt')
+                noUnderlineHeading.classList.remove('header-table-highlight')
+            }
+        })
+    })
+
+    const buttonAddClient = document.createElement('button');
+    buttonAddClient.classList = 'button-add-client';
+    buttonAddClient.innerText = 'Добавить клиента';
+    content.append(buttonAddClient)
+
+    buttonAddClient.onclick = () => addClientModalRender();
+}
 
 // Рендер таблицы с клиентами
 const renderTableClients = () => {
 
-     allClients.map((item, index) => {
+    allClients.map((item, index) => {
         const trBody = document.createElement('tr');
         trBody.className = 'table-line';
         const id = document.createElement('td');
@@ -399,60 +430,71 @@ const renderTableClients = () => {
                 spanContactFacebook.className = 'icon-contact facebook';
                 contacts.append(spanContactFacebook)
             }
+
         });
+        if (item.contacts.length >= 6) {
+            contacts.childNodes.forEach(item => {
+                item.classList.add('icon-contact-hide')
+            })
+            const spanContactMore = document.createElement('span');
+            const moreCount = document.createElement('div');
+            moreCount.className = 'more-count'
+
+            spanContactMore.setAttribute('tooltip', `ещё ${item.contacts.length - 4}`);
+            spanContactMore.className = 'more';
+            moreCount.innerHTML = `+${item.contacts.length - 4}`
+            spanContactMore.append(moreCount)
+            contacts.append(spanContactMore);
+        }
+
         const buttons = document.createElement('td');
-         buttons.className = 'table-content-cell';
+        buttons.className = 'table-content-cell';
 
         const buttonsContainer = document.createElement('div');
-         buttonsContainer.classList = 'buttons-container';
+        buttonsContainer.classList = 'buttons-container';
 
         const editButtonContainer = document.createElement('div')
-         editButtonContainer.classList = 'edit-button-container';
+        editButtonContainer.classList = 'edit-button-container';
 
-         const deleteButtonContainer = document.createElement('div')
+        const deleteButtonContainer = document.createElement('div')
         deleteButtonContainer.classList = 'delete-button-container';
 
         const updateButton = document.createElement('button');
         updateButton.className = 'edit-delete-button edit-button';
         const deleteButton = document.createElement('button');
-         deleteButton.className = 'edit-delete-button';
+        deleteButton.className = 'edit-delete-button';
 
         const editImage = document.createElement('div');
         editImage.classList = 'edit-button-image';
 
-         const deleteImage = document.createElement('div');
-         deleteImage.classList = 'delete-button-image';
+        const deleteImage = document.createElement('div');
+        deleteImage.classList = 'delete-button-image';
 
         updateButton.innerText = 'Изменить';
         deleteButton.innerText = 'Удалить';
 
-         editButtonContainer.onclick = () => {
-             editButtonContainer.classList.add('show-loader');
-             editButtonContainer.classList.add('mini-loader');
-             return  getToUpdateClient(item.id);
-         }
-         deleteButtonContainer.onclick = () => deleteClientModalRender(item.id);
+        editButtonContainer.onclick = () => {
+            editButtonContainer.classList.add('show-loader');
+            editButtonContainer.classList.add('mini-loader');
+            return  getToUpdateClient(item.id);
+        }
+        deleteButtonContainer.onclick = () => deleteClientModalRender(item.id);
 
-         buttonsContainer.append(editButtonContainer, deleteButtonContainer);
-         buttons.append(buttonsContainer)
+        buttonsContainer.append(editButtonContainer, deleteButtonContainer);
+        buttons.append(buttonsContainer)
 
         editButtonContainer.append(editImage, updateButton);
         deleteButtonContainer.append(deleteImage, deleteButton);
 
+        const tbody = document.querySelector('.table-content');
         tbody.append(trBody)
         trBody.append(id, name, createDate, changeDate, contacts, buttons)
         changeDate.append(spanCreatedTime);
         createDate.append(spanUpdatedTime);
     })
-
+    onClickMoreContacts()
 }
-
-const buttonAddClient = document.createElement('button');
-buttonAddClient.classList = 'button-add-client';
-buttonAddClient.innerText = 'Добавить клиента';
-content.append(buttonAddClient)
-
-buttonAddClient.onclick = () => addClientModalRender();
-
+headerRender()
+mainRender();
 getClients()
 

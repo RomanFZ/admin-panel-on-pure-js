@@ -17,11 +17,13 @@
 }
 
 .modal {
-    background-color: #fff;
-    width: 450px;
+    display: none;
+    min-width: 450px;
+    max-height: 90vh;
     padding-bottom: 25px;
     text-align: center;
-    display: none;
+    overflow-x: hidden;
+    background-color: #fff;
 }
 
 .add-client-heading {
@@ -45,14 +47,17 @@
 
 .modal--visible {
     display: block;
+    overflow-y: auto;
 }
 
 .close-modal-btn {
-    cursor: pointer;
-    margin-right: 15px;
+    position: relative;
+    width: 30px;
+    height: 25px;
     border: none;
     outline: none;
     background-color: transparent;
+    cursor: pointer;
     transition: all .3s ease;
 }
 
@@ -182,8 +187,8 @@
 .btn-add-contacts::before {
     content: "";
     position: absolute;
-    top: 8px;
-    left: 150px;
+    top: 9px;
+    left: 33%;
     width: 16px;
     height: 16px;
     background-image: url("../image/add_circle_outline.svg");
@@ -419,7 +424,7 @@
 }
 .btn-close-delete-modal {
     position: absolute;
-    top: 30px;
+    top: 19px;
     right: 24px;
 }
 
