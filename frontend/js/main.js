@@ -17,7 +17,6 @@ export const getClients = async () => {
     loader(true);
     const clients = await Api.get('http://localhost:3000/api/clients');
     allClients = sortingClients(clients, key, dir);
-
     if (allClients.length >= 0) {
         loader(false);
     }
@@ -38,7 +37,29 @@ const goToClient = (id) => {
         } else {
         }
     })
+}
 
+// проверка url на наличие id
+const urlPathCheck = () => {
+    const href = window.location.href;
+    const array = Array.from(href)
+    const contains = (arr, elem) => {
+        return arr.find((i) => i === elem) !== -1;
+    }
+    if (contains(array, '#')) {
+        const indexHash = array.indexOf('#')
+        const arrayId = array.slice(indexHash + 1 )
+        const correctId = arrayId.join('');
+        const modal = document.querySelector('.modal');
+        if (arrayId.length === 13 && !modal) {
+            const editButtonContainers = document.querySelectorAll('.edit-button-container');
+            editButtonContainers.forEach(item => {
+                item.classList.add('mini-loader');
+                item.classList.add('show-loader');
+            })
+            getToUpdateClient(correctId);
+        }
+    }
 }
 
 // проверка хеша
@@ -72,7 +93,6 @@ const onclickSearchResult = (client) => {
     })
     goToClient(client.id)
 }
-
 
 // Кнопка очищает полностью поиск
 export const clearSearch = () => {
@@ -492,6 +512,7 @@ const renderTableClients = () => {
         changeDate.append(spanCreatedTime);
         createDate.append(spanUpdatedTime);
     })
+    urlPathCheck()
     onClickMoreContacts()
 }
 headerRender()
